@@ -11,6 +11,7 @@ dependencies:
 
   cupertino_icons: ^0.1.2
   intl: ^0.16.0
+  geolocator: ^5.1.5
 
 dev_dependencies:
   flutter_test:
@@ -22,7 +23,6 @@ flutter:
 
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
    - assets/
 
