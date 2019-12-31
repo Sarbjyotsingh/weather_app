@@ -50,3 +50,7 @@ const kCloudyGradient = [
   Color(0xFF1F6AB5),
   Color(0xFFb3e5fc),
 ];
+
+const kApiKey = '&units=metric&appid=9d868bd4b3091ce45569039efaf4191f';
+
+const kApiURL = 'https://api.openweathermap.org/data/2.5/';

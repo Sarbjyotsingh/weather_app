@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weather_app/services/location_info.dart';
+import 'package:weather_app/services/weather.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -15,13 +16,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getUserLocationData() async {
-    if (!await LocationInfo().getUserLocation()) {
-      Navigator.pushReplacementNamed(context, '/LocationScreen');
+    // getting user location
+    if (!await LocationInfo().getUserLocationAndGPS()) {
+      Navigator.pushReplacementNamed(context, '/CityScreen');
     } else {
       LocationInfo locationInfo = new LocationInfo();
       await locationInfo.getUserLocationData();
-//      print(locationInfo);
-//      print(locationInfo.longitude);
+      //getting weather data on basis of location
+      Weather weather = new Weather();
+      print(await weather.getLocationWeatherForecastData(
+          longitude: locationInfo.longitude, latitude: locationInfo.latitude));
     }
   }
 

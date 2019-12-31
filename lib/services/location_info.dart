@@ -12,20 +12,13 @@ class LocationInfo {
       }
     }
     location.changeSettings(accuracy: LocationAccuracy.BALANCED);
-    await _enableGPS();
     var currentLocation = await location.getLocation();
     longitude = currentLocation.longitude;
     latitude = currentLocation.latitude;
   }
 
-  Future<bool> getUserLocation() async {
-    return await Location().requestPermission();
-  }
-
-  Future<void> _enableGPS() async {
-    var isGpsEnabled = await Location().serviceEnabled();
-    if (!isGpsEnabled) {
-      await Location().requestService();
-    }
+  Future<bool> getUserLocationAndGPS() async {
+    return await Location().requestService() &&
+        await Location().requestPermission();
   }
 }
