@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
+import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -45,7 +46,9 @@ class _LocationScreenState extends State<LocationScreen> {
                         icon: Icon(Icons.gps_fixed),
                         color: Colors.white,
                         iconSize: 33,
-                        onPressed: () {},
+                        onPressed: () async {
+                          await LocationInfo().getUserLocationData();
+                        },
                       ),
                     ),
                     Expanded(
