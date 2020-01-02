@@ -12,9 +12,13 @@ class LocationInfo {
       }
     }
     location.changeSettings(accuracy: LocationAccuracy.BALANCED);
-    var currentLocation = await location.getLocation();
-    longitude = currentLocation.longitude;
-    latitude = currentLocation.latitude;
+    try {
+      var currentLocation = await location.getLocation();
+      longitude = currentLocation.longitude;
+      latitude = currentLocation.latitude;
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<bool> getUserLocationAndGPS() async {

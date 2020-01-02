@@ -14,6 +14,7 @@ dependencies:
   location: ^2.3.5
   flutter_spinkit: ^4.1.1
   http: ^0.12.0+3
+  flutter_icons: ^1.0.0+1
 
 
 dev_dependencies:
@@ -32,4 +33,4 @@ flutter:
   fonts:
       - family: Montserrat
         fonts:
-          - asset: fonts/Montserrat-Regular.ttf
+          - asset: fonts/Montserrat-Light.ttf

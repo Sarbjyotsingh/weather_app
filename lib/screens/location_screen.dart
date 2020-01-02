@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
 import 'package:weather_app/utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
+  final weatherData;
+  LocationScreen({@required this.weatherData});
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -35,52 +38,95 @@ class _LocationScreenState extends State<LocationScreen> {
         constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
+              Container(
+                padding: EdgeInsets.all(15.0),
+                child: Column(
                   children: <Widget>[
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(Icons.gps_fixed),
-                        color: Colors.white,
-                        iconSize: 33,
-                        onPressed: () {
-                          // Todo:Get weather Data and update UI on set State
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: Center(
-                        child: Text(
-                          'Hong Kong',
-                          style: TextStyle(fontSize: 23),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: IconButton(
+                            icon: Icon(Icons.gps_fixed),
+                            color: Colors.white,
+                            iconSize: 33,
+                            onPressed: () {
+                              // Todo:Get weather Data and update UI on set State
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.search,
+                        Expanded(
+                          flex: 5,
+                          child: Center(
+                            child: Text(
+                              'Hong Kong',
+                              style: TextStyle(fontSize: 23),
+                            ),
+                          ),
                         ),
-                        iconSize: 33,
-                        onPressed: () {},
+                        Expanded(
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.search,
+                            ),
+                            iconSize: 33,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/CityScreen');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: Text(
+                        _currentDateTime,
                       ),
                     ),
                   ],
                 ),
               ),
-              Center(
-                child: Text(
-                  _currentDateTime,
+              Container(
+                padding: EdgeInsets.all(25.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Icon(
+                          WeatherIcons.wi_moon_waning_crescent_2,
+                          size: 40.0,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Clear',
+                          style: TextStyle(fontSize: 50),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '23',
+                          style: TextStyle(
+                            fontSize: 100,
+                          ),
+                        ),
+                        Text(
+                          '⁰',
+                          style: TextStyle(fontSize: 80),
+                        ),
+                        Spacer(
+                          flex: 2,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              Spacer(
-                flex: 5,
-              ),
-              Center(
-                child: Text(''),
               ),
             ],
           ),

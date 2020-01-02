@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
 
@@ -24,8 +25,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
       await locationInfo.getUserLocationData();
       //getting weather data on basis of location
       Weather weather = new Weather();
-      print(await weather.getLocationWeatherForecastData(
-          longitude: locationInfo.longitude, latitude: locationInfo.latitude));
+      dynamic weatherData = await weather.getLocationWeatherCurrentData(
+          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return LocationScreen(
+              weatherData: weatherData,
+            );
+          },
+        ),
+      );
     }
   }
 
