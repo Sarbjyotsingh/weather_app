@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
 import 'package:weather_app/utilities/constants.dart';
+import 'package:weather_app/widgets/detail_card_widget.dart';
 
 class LocationScreen extends StatefulWidget {
   final weatherData;
@@ -14,12 +16,25 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   String _currentDateTime;
+  bool _celsiusButtonStatus;
+  bool _fahrenheitButtonStatus;
+  var _celsiusButtonColor;
+  var _fahrenheitButtonColor;
+  double _celsiusButtonElevation;
+  double _fahrenheitButtonElevation;
+
   @override
   void initState() {
     super.initState();
     getCurrentDateTimeString();
     Timer.periodic(
         Duration(seconds: 1), (Timer t) => getCurrentDateTimeString());
+    _celsiusButtonStatus = true;
+    _celsiusButtonColor = kEnabledButtonColor;
+    _celsiusButtonElevation = kEnabledButtonElevation;
+    _fahrenheitButtonStatus = false;
+    _fahrenheitButtonColor = kDisabledButtonColor;
+    _fahrenheitButtonElevation = kDisabledButtonElevation;
   }
 
   void getCurrentDateTimeString() {
@@ -28,6 +43,32 @@ class _LocationScreenState extends State<LocationScreen> {
     setState(() {
       _currentDateTime = timeString;
     });
+  }
+
+  void _changeUnitSystemToCelsius() {
+    if (!_celsiusButtonStatus) {
+      setState(() {
+        _celsiusButtonStatus = true;
+        _celsiusButtonColor = kEnabledButtonColor;
+        _celsiusButtonElevation = kEnabledButtonElevation;
+        _fahrenheitButtonStatus = false;
+        _fahrenheitButtonColor = kDisabledButtonColor;
+        _fahrenheitButtonElevation = kDisabledButtonElevation;
+      });
+    }
+  }
+
+  void _changeUnitSystemToFahrenheit() {
+    if (!_fahrenheitButtonStatus) {
+      setState(() {
+        _celsiusButtonStatus = false;
+        _celsiusButtonColor = kDisabledButtonColor;
+        _celsiusButtonElevation = kDisabledButtonElevation;
+        _fahrenheitButtonStatus = true;
+        _fahrenheitButtonColor = kEnabledButtonColor;
+        _fahrenheitButtonElevation = kEnabledButtonElevation;
+      });
+    }
   }
 
   @override
@@ -92,19 +133,16 @@ class _LocationScreenState extends State<LocationScreen> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
                         Icon(
-                          WeatherIcons.wi_moon_waning_crescent_2,
+                          WeatherIcons.wi_night_clear,
                           size: 40.0,
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Text(
                           'Clear',
-                          style: TextStyle(fontSize: 50),
+                          style: TextStyle(fontSize: 30),
                         ),
                       ],
                     ),
@@ -113,16 +151,76 @@ class _LocationScreenState extends State<LocationScreen> {
                         Text(
                           '23',
                           style: TextStyle(
-                            fontSize: 100,
+                            fontSize: 70,
                           ),
                         ),
-                        Text(
-                          '⁰',
-                          style: TextStyle(fontSize: 80),
+                        Icon(
+                          WeatherIcons.wi_degrees,
+                          size: 70,
                         ),
-                        Spacer(
-                          flex: 2,
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                RaisedButton(
+                                  child: Icon(
+                                    WeatherIcons.wi_celsius,
+                                    size: 30,
+                                  ),
+                                  color: _celsiusButtonColor,
+                                  elevation: _celsiusButtonElevation,
+                                  onPressed: _changeUnitSystemToCelsius,
+                                ),
+                                Container(
+                                  height: 2,
+                                  width: 70,
+                                  color: Colors.grey,
+                                ),
+                                RaisedButton(
+                                  child: Icon(
+                                    WeatherIcons.wi_fahrenheit,
+                                    size: 30,
+                                  ),
+                                  color: _fahrenheitButtonColor,
+                                  elevation: _fahrenheitButtonElevation,
+                                  onPressed: _changeUnitSystemToFahrenheit,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(25.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text('DETAILS    '),
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        DetailCardWidget(),
+                        DetailCardWidget(),
+                        DetailCardWidget(),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        DetailCardWidget(),
+                        DetailCardWidget(),
+                        DetailCardWidget(),
                       ],
                     ),
                   ],

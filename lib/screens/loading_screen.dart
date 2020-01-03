@@ -27,7 +27,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Weather weather = new Weather();
       dynamic weatherData = await weather.getLocationWeatherCurrentData(
           longitude: locationInfo.longitude, latitude: locationInfo.latitude);
-
+      print(weatherData);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

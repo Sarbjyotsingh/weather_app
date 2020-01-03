@@ -11,7 +11,7 @@ class LocationInfo {
         return;
       }
     }
-    location.changeSettings(accuracy: LocationAccuracy.BALANCED);
+    location.changeSettings(accuracy: LocationAccuracy.HIGH);
     try {
       var currentLocation = await location.getLocation();
       longitude = currentLocation.longitude;

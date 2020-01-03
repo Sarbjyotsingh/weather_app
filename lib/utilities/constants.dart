@@ -50,3 +50,8 @@ const kCloudyGradient = [
   Color(0xFF1F6AB5),
   Color(0xFFb3e5fc),
 ];
+
+const kDisabledButtonColor = Color(0x66FFFFFF);
+const kDisabledButtonElevation = 0.0;
+const kEnabledButtonColor = Color(0xFF1e88e5);
+const kEnabledButtonElevation = 2.0;
