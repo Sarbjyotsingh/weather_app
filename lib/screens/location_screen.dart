@@ -211,40 +211,65 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                     Row(
                       children: <Widget>[
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
+                        Expanded(
+                          child: DetailCardWidget(
+                            cardIconData: WeatherIcons.wi_thermometer,
+                            cardText: 'Feels like',
+                            cardValue: '22 °',
+                          ),
                         ),
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
+                        Expanded(
+                          child: DetailCardWidget(
+                            cardIconData: WeatherIcons.wi_strong_wind,
+                            cardText: 'Wind',
+                            cardValue: '5 Km/h',
+                          ),
                         ),
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
+                        Expanded(
+                          child: DetailCardWidget(
+                            cardIconData: WeatherIcons.wi_humidity,
+                            cardText: 'Humidity',
+                            cardValue: '15 %',
+                          ),
                         ),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
+                        Expanded(
+                          child: DetailCardWidget(
+                            cardIconData: WeatherIcons.wi_barometer,
+                            cardText: 'Pressure',
+                            cardValue: '22.25 in',
+                          ),
                         ),
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
+                        Expanded(
+                          child: DetailCardWidget(
+                            cardIconData: MaterialIcons.remove_red_eye,
+                            cardText: 'Visibility',
+                            cardValue: '4000',
+                          ),
                         ),
-                        DetailCardWidget(
-                          cardIconData: WeatherIcons.wi_thermometer,
-                          cardText: 'Feels like',
-                          cardValue: '22 °',
-                        ),
+
+//Todo: get this to fit rightly in ui
+//                        Expanded(
+//                          child: Column(
+//                            children: <Widget>[
+//                              Container(
+//                                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+//                                padding: EdgeInsets.fromLTRB(0, 22, 0, 22),
+//                                decoration: BoxDecoration(
+//                                  color: Color(0xFF1AFFFFFF),
+//                                  borderRadius: BorderRadius.circular(8),
+//                                ),
+//                                child: RaisedButton(
+//                                  child: Text('Forecast'),
+//                                  onPressed: () {},
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
                       ],
                     ),
                   ],

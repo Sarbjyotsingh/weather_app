@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/utilities/constants.dart';
 
 class DetailCardWidget extends StatefulWidget {
   final IconData cardIconData;
@@ -17,31 +18,35 @@ class DetailCardWidget extends StatefulWidget {
 class _DetailCardWidgetState extends State<DetailCardWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
-        decoration: BoxDecoration(
-          color: Color(0x66FFFFFF),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Icon(widget.cardIconData),
-            SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              widget.cardText,
-            ),
-            Row(
-              children: <Widget>[],
-            ),
-            Text(
-              widget.cardValue,
-            ),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.fromLTRB(5, 10, 5, 0),
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      decoration: BoxDecoration(
+        color: Color(0xFF1AFFFFFF),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Icon(
+            widget.cardIconData,
+            color:
+                kClearNightGradient[0], //Todo: change color according to screen
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          Text(
+            widget.cardText,
+            style: TextStyle(color: Colors.grey),
+          ),
+          Row(
+            children: <Widget>[],
+          ),
+          Text(
+            widget.cardValue,
+          ),
+        ],
       ),
     );
   }
