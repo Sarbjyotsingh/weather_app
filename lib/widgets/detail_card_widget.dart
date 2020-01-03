@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class DetailCardWidget extends StatefulWidget {
+  final IconData cardIconData;
+  final String cardText;
+  final String cardValue;
+
+  DetailCardWidget(
+      {@required this.cardIconData,
+      @required this.cardText,
+      @required this.cardValue});
+
   @override
   _DetailCardWidgetState createState() => _DetailCardWidgetState();
 }
@@ -19,18 +27,18 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Icon(WeatherIcons.wi_thermometer),
+            Icon(widget.cardIconData),
             SizedBox(
               height: 12.0,
             ),
             Text(
-              'Feels like',
+              widget.cardText,
             ),
             Row(
               children: <Widget>[],
             ),
             Text(
-              '22 °',
+              widget.cardValue,
             ),
           ],
         ),

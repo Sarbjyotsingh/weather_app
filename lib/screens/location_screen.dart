@@ -211,16 +211,40 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                     Row(
                       children: <Widget>[
-                        DetailCardWidget(),
-                        DetailCardWidget(),
-                        DetailCardWidget(),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        DetailCardWidget(),
-                        DetailCardWidget(),
-                        DetailCardWidget(),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
+                        DetailCardWidget(
+                          cardIconData: WeatherIcons.wi_thermometer,
+                          cardText: 'Feels like',
+                          cardValue: '22 °',
+                        ),
                       ],
                     ),
                   ],
