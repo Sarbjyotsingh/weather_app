@@ -23,10 +23,11 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   String _currentDateTime;
+  IconData _weatherIcon;
   String _weatherStatus;
   String _cityName;
-  double _temperature;
-  double _temperatureFeelLike;
+  int _temperature;
+  int _temperatureFeelLike;
   double _wind;
   int _humidity;
   int _pressure;
@@ -34,8 +35,8 @@ class _LocationScreenState extends State<LocationScreen> {
   int _cloudiness;
   bool _celsiusButtonStatus;
   bool _fahrenheitButtonStatus;
-  var _celsiusButtonColor;
-  var _fahrenheitButtonColor;
+  Color _celsiusButtonColor;
+  Color _fahrenheitButtonColor;
   double _celsiusButtonElevation;
   double _fahrenheitButtonElevation;
 
@@ -84,16 +85,18 @@ class _LocationScreenState extends State<LocationScreen> {
   void _updateUI(dynamic weatherData) {
     setState(() {
       try {
+        _weatherIcon = kWetWeatherIcon();
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
-        _temperature = weatherData['main']['temp'];
-        _temperatureFeelLike = weatherData['main']['feels_like'];
+        _temperature = weatherData['main']['temp'].toInt();
+        _temperatureFeelLike = weatherData['main']['feels_like'].toInt();
         _wind = weatherData['wind']['speed'].toDouble();
-        _humidity = weatherData['main']['humidity'];
-        _pressure = weatherData['main']['pressure'];
-        _visibility = weatherData['visibility'];
-        _cloudiness = weatherData['clouds']['all'];
+        _humidity = weatherData['main']['humidity'].toInt();
+        _pressure = weatherData['main']['pressure'].toInt();
+        _visibility = weatherData['visibility'].toInt();
+        _cloudiness = weatherData['clouds']['all'].toInt();
       } catch (e) {
+        _weatherIcon = WeatherIcons.wi_na;
         _cityName = '';
         _weatherStatus = 'ERROR';
         _temperature = null;
@@ -117,8 +120,8 @@ class _LocationScreenState extends State<LocationScreen> {
         _fahrenheitButtonStatus = false;
         _fahrenheitButtonColor = kDisabledButtonColor;
         _fahrenheitButtonElevation = kDisabledButtonElevation;
-        _temperature = ((_temperature - 32) * 5 / 9);
-        _temperatureFeelLike = ((_temperatureFeelLike - 32) * 5 / 9);
+        _temperature = ((_temperature - 32) * 5 ~/ 9);
+        _temperatureFeelLike = ((_temperatureFeelLike - 32) * 5 ~/ 9);
       });
     }
   }
@@ -132,8 +135,8 @@ class _LocationScreenState extends State<LocationScreen> {
         _fahrenheitButtonStatus = true;
         _fahrenheitButtonColor = kEnabledButtonColor;
         _fahrenheitButtonElevation = kEnabledButtonElevation;
-        _temperature = ((_temperature * 9) / 5) + 32;
-        _temperatureFeelLike = ((_temperatureFeelLike * 9) / 5) + 32;
+        _temperature = ((_temperature * 9) ~/ 5) + 32;
+        _temperatureFeelLike = ((_temperatureFeelLike * 9) ~/ 5) + 32;
       });
     }
   }
@@ -222,7 +225,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: <Widget>[
                           Icon(
-                            WeatherIcons.wi_night_clear,
+                            _weatherIcon,
                             size: 40.0,
                           ),
                           SizedBox(

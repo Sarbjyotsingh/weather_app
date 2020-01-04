@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 const kGradientBackground = BoxDecoration(
   gradient: LinearGradient(
@@ -50,6 +51,27 @@ const kCloudyGradient = [
   Color(0xFF1F6AB5),
   Color(0xFFb3e5fc),
 ];
+
+IconData kWetWeatherIcon() {
+  return kDrizzleNightIcon;
+}
+
+const kClearDayIcon = WeatherIcons.wi_day_sunny;
+const kClearNightIcon = WeatherIcons.wi_night_clear;
+const kThunderStormDayIcon = WeatherIcons.wi_thunderstorm;
+const kThunderStormNightIcon = WeatherIcons.wi_night_alt_thunderstorm;
+const kDrizzleDayIcon = WeatherIcons.wi_rain_mix;
+const kDrizzleNightIcon = WeatherIcons.wi_night_alt_rain_mix;
+const kRainDayIcon = WeatherIcons.wi_day_rain;
+const KRainNightIcon = WeatherIcons.wi_night_alt_rain;
+const kSnowDayIcon = WeatherIcons.wi_day_snow;
+const kNightSnowIcon = WeatherIcons.wi_night_alt_snow;
+const kAtmosphereDayIcon = WeatherIcons.wi_day_cloudy_windy;
+const kAtmosphereNightIcon = WeatherIcons.wi_night_alt_cloudy_windy;
+const kCloudDayIcon = WeatherIcons.wi_day_cloudy_high;
+const kNightCloudIcon = WeatherIcons.wi_night_alt_cloudy_high;
+const kCloudDayHighIcon = WeatherIcons.wi_day_cloudy;
+const kNightCloudHighIcon = WeatherIcons.wi_night_alt_cloudy;
 
 const kDisabledButtonColor = Color(0x66FFFFFF);
 const kDisabledButtonElevation = 0.0;

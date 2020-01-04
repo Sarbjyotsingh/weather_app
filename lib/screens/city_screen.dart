@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/utilities/constants.dart';
 
 //Todo: On returning (By button of return without entering city)to Location Screen use Navigator Push Replacement
 class CityScreen extends StatefulWidget {
@@ -7,7 +8,7 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
-// only show exit popup when travling from loading screen and press back button
+// only show exit popup when Routing from loading screen and press back button
   Future<bool> _onWillPop() async {
     var route = ModalRoute.of(context).settings.name;
     if (route != null) {
@@ -41,7 +42,10 @@ class _CityScreenState extends State<CityScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Container(
-        child: Text('Text $route'),
+        decoration: kGradientBackground,
+        child: SafeArea(
+          child: Text('Text $route'),
+        ),
       ),
     );
   }
