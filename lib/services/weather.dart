@@ -14,6 +14,8 @@ class Weather {
     return await networkHelper.getResponseData();
   }
 
+  // Todo: get stream of data
+
 // For stream of data: dio package (weather forecast)
 //  Future<dynamic> getLocationWeatherForecastData(
 //      {@required double longitude, @required double latitude}) async {

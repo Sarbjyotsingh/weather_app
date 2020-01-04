@@ -22,7 +22,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
       margin: EdgeInsets.fromLTRB(5, 10, 5, 0),
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
       decoration: BoxDecoration(
-        color: Color(0xFF1AFFFFFF),
+        color: kTransparentBackgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(

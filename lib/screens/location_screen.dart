@@ -3,9 +3,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:weather_app/screens/forecast_screen.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
+
+// Todo: refactor all code
+//Todo: exit popup o location and loading screen
 
 class LocationScreen extends StatefulWidget {
   final weatherData;
@@ -16,6 +20,15 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   String _currentDateTime;
+  String _weatherStatus;
+  String _cityName;
+  int _temperature;
+  int _temperatureFeelLike;
+  double _wind;
+  int _humidity;
+  int _pressure;
+  int _visibility;
+  int _cloudiness;
   bool _celsiusButtonStatus;
   bool _fahrenheitButtonStatus;
   var _celsiusButtonColor;
@@ -23,18 +36,25 @@ class _LocationScreenState extends State<LocationScreen> {
   double _celsiusButtonElevation;
   double _fahrenheitButtonElevation;
 
-  @override
-  void initState() {
-    super.initState();
-    getCurrentDateTimeString();
-    Timer.periodic(
-        Duration(seconds: 1), (Timer t) => getCurrentDateTimeString());
-    _celsiusButtonStatus = true;
-    _celsiusButtonColor = kEnabledButtonColor;
-    _celsiusButtonElevation = kEnabledButtonElevation;
-    _fahrenheitButtonStatus = false;
-    _fahrenheitButtonColor = kDisabledButtonColor;
-    _fahrenheitButtonElevation = kDisabledButtonElevation;
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 
   void getCurrentDateTimeString() {
@@ -71,211 +91,269 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      try {
+        _weatherStatus = weatherData['weather'][0]['main'];
+        _cityName = weatherData['name'];
+        _temperature = weatherData['main']['temp'].toInt();
+        _temperatureFeelLike = weatherData['main']['feels_like'].toInt();
+        _wind = weatherData['wind']['speed'].toDouble();
+        _humidity = weatherData['main']['humidity'];
+        _pressure = weatherData['main']['pressure'];
+        _visibility = weatherData['visibility'];
+        _cloudiness = weatherData['clouds']['all'];
+      } catch (e) {
+        _cityName = '';
+        _weatherStatus = 'ERROR';
+        _temperature = null;
+        _temperatureFeelLike = null;
+        _wind = null;
+        _humidity = null;
+        _pressure = null;
+        _visibility = null;
+        _cloudiness = null;
+        print(e);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentDateTimeString();
+    Timer.periodic(
+        Duration(seconds: 1), (Timer t) => getCurrentDateTimeString());
+    _celsiusButtonStatus = true;
+    _celsiusButtonColor = kEnabledButtonColor;
+    _celsiusButtonElevation = kEnabledButtonElevation;
+    _fahrenheitButtonStatus = false;
+    _fahrenheitButtonColor = kDisabledButtonColor;
+    _fahrenheitButtonElevation = kDisabledButtonElevation;
+    updateUI(widget.weatherData);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: kGradientBackground,
-        constraints: BoxConstraints.expand(),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(15.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: IconButton(
-                            icon: Icon(Icons.gps_fixed),
-                            color: Colors.white,
-                            iconSize: 33,
-                            onPressed: () {
-                              // Todo:Get weather Data and update UI on set State
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Center(
-                            child: Text(
-                              'Hong Kong',
-                              style: TextStyle(fontSize: 23),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: Container(
+          decoration: kGradientBackground,
+          constraints: BoxConstraints.expand(),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: IconButton(
+                              icon: Icon(Icons.gps_fixed),
+                              color: Colors.white,
+                              iconSize: 33,
+                              onPressed: () {
+                                // Todo:Get weather Data and update UI on set State
+                              },
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.search,
+                          Expanded(
+                            flex: 5,
+                            child: Center(
+                              child: Text(
+                                _cityName,
+                                style: TextStyle(fontSize: 23),
+                              ),
                             ),
-                            iconSize: 33,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/CityScreen');
-                            },
                           ),
+                          Expanded(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.search,
+                              ),
+                              iconSize: 33,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/CityScreen');
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Text(
+                          _currentDateTime,
                         ),
-                      ],
-                    ),
-                    Center(
-                      child: Text(
-                        _currentDateTime,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(25.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            WeatherIcons.wi_night_clear,
+                            size: 40.0,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _weatherStatus,
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '$_temperature',
+                            style: TextStyle(
+                              fontSize: 70,
+                            ),
+                          ),
+                          Icon(
+                            WeatherIcons.wi_degrees,
+                            size: 70,
+                          ),
+                          //Todo: refactor 2 button
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                children: <Widget>[
+                                  RaisedButton(
+                                    child: Icon(
+                                      WeatherIcons.wi_celsius,
+                                      size: 30,
+                                    ),
+                                    color: _celsiusButtonColor,
+                                    elevation: _celsiusButtonElevation,
+                                    onPressed: _changeUnitSystemToCelsius,
+                                  ),
+                                  Container(
+                                    height: 2,
+                                    width: 70,
+                                    color: Colors.grey,
+                                  ),
+                                  RaisedButton(
+                                    child: Icon(
+                                      WeatherIcons.wi_fahrenheit,
+                                      size: 30,
+                                    ),
+                                    color: _fahrenheitButtonColor,
+                                    elevation: _fahrenheitButtonElevation,
+                                    onPressed: _changeUnitSystemToFahrenheit,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: RaisedButton(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesome.line_chart),
+                          Text('Forecast'),
+                        ],
                       ),
                     ),
-                  ],
+                    color: kTransparentBackgroundColor,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ForecastScreen();
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(25.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          WeatherIcons.wi_night_clear,
-                          size: 40.0,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Clear',
-                          style: TextStyle(fontSize: 30),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          '23',
-                          style: TextStyle(
-                            fontSize: 70,
-                          ),
-                        ),
-                        Icon(
-                          WeatherIcons.wi_degrees,
-                          size: 70,
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                RaisedButton(
-                                  child: Icon(
-                                    WeatherIcons.wi_celsius,
-                                    size: 30,
-                                  ),
-                                  color: _celsiusButtonColor,
-                                  elevation: _celsiusButtonElevation,
-                                  onPressed: _changeUnitSystemToCelsius,
-                                ),
-                                Container(
-                                  height: 2,
-                                  width: 70,
-                                  color: Colors.grey,
-                                ),
-                                RaisedButton(
-                                  child: Icon(
-                                    WeatherIcons.wi_fahrenheit,
-                                    size: 30,
-                                  ),
-                                  color: _fahrenheitButtonColor,
-                                  elevation: _fahrenheitButtonElevation,
-                                  onPressed: _changeUnitSystemToFahrenheit,
-                                ),
-                              ],
+                Container(
+                  padding: EdgeInsets.all(25.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text('DETAILS    '),
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              color: Colors.grey,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: WeatherIcons.wi_thermometer,
+                              cardText: 'Feels like',
+                              cardValue: '$_temperatureFeelLike °',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: WeatherIcons.wi_strong_wind,
+                              cardText: 'Wind',
+                              cardValue: '$_wind Km/h',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: WeatherIcons.wi_humidity,
+                              cardText: 'Humidity',
+                              cardValue: '$_humidity %',
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: WeatherIcons.wi_barometer,
+                              cardText: 'Pressure',
+                              cardValue: '$_pressure in',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: MaterialIcons.remove_red_eye,
+                              cardText: 'Visibility',
+                              cardValue: '$_visibility',
+                            ),
+                          ),
+                          Expanded(
+                            child: DetailCardWidget(
+                              cardIconData: WeatherIcons.wi_cloudy,
+                              cardText: 'Cloudiness',
+                              cardValue: '$_cloudiness %',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(25.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text('DETAILS    '),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: DetailCardWidget(
-                            cardIconData: WeatherIcons.wi_thermometer,
-                            cardText: 'Feels like',
-                            cardValue: '22 °',
-                          ),
-                        ),
-                        Expanded(
-                          child: DetailCardWidget(
-                            cardIconData: WeatherIcons.wi_strong_wind,
-                            cardText: 'Wind',
-                            cardValue: '5 Km/h',
-                          ),
-                        ),
-                        Expanded(
-                          child: DetailCardWidget(
-                            cardIconData: WeatherIcons.wi_humidity,
-                            cardText: 'Humidity',
-                            cardValue: '15 %',
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: DetailCardWidget(
-                            cardIconData: WeatherIcons.wi_barometer,
-                            cardText: 'Pressure',
-                            cardValue: '22.25 in',
-                          ),
-                        ),
-                        Expanded(
-                          child: DetailCardWidget(
-                            cardIconData: MaterialIcons.remove_red_eye,
-                            cardText: 'Visibility',
-                            cardValue: '4000',
-                          ),
-                        ),
-
-//Todo: get this to fit rightly in ui
-//                        Expanded(
-//                          child: Column(
-//                            children: <Widget>[
-//                              Container(
-//                                margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-//                                padding: EdgeInsets.fromLTRB(0, 22, 0, 22),
-//                                decoration: BoxDecoration(
-//                                  color: Color(0xFF1AFFFFFF),
-//                                  borderRadius: BorderRadius.circular(8),
-//                                ),
-//                                child: RaisedButton(
-//                                  child: Text('Forecast'),
-//                                  onPressed: () {},
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

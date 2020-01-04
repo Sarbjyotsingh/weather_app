@@ -16,6 +16,6 @@ class NetworkHelper {
       return response.statusCode;
     }
   }
-  // For stream of data: dio package (weather forecast)
+  // todo: For stream of data: dio package (weather forecast)
   //Future<dynamic> getStreamResponseData() async {}
 }
