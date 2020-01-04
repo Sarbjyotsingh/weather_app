@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weather_app/screens/city_screen.dart';
-import 'package:weather_app/screens/forecast_screen.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 
 void main() => runApp(MyApp());
@@ -28,12 +26,6 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       home: LoadingScreen(),
-      routes: {
-        '/LoadingScreen': (context) => LoadingScreen(),
-//        '/LocationScreen': (context) => LocationScreen(),   // Need  weather data to call so use Navigator
-        '/CityScreen': (context) => CityScreen(),
-        '/ForecastScreen': (context) => ForecastScreen(),
-      },
     );
   }
 }

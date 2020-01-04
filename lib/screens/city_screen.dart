@@ -7,11 +7,42 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+// only show exit popup when travling from loading screen and press back button
+  Future<bool> _onWillPop() async {
+    var route = ModalRoute.of(context).settings.name;
+    if (route != null) {
+      return (await showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Are you sure?'),
+              content: new Text('Do you want to exit an App'),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('No'),
+                ),
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: new Text('Yes'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    } else {
+      Navigator.of(context).pop(true);
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var route = ModalRoute.of(context).settings.name;
-    return Container(
-      child: Text('Text $route'),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Container(
+        child: Text('Text $route'),
+      ),
     );
   }
 }

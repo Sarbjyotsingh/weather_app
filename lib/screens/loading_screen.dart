@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
@@ -34,7 +35,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getUserLocationData() async {
     // getting user location
     if (!await LocationInfo().getUserLocationAndGPS()) {
-      Navigator.pushReplacementNamed(context, '/CityScreen');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return CityScreen();
+          },
+        ),
+      );
     } else {
       LocationInfo locationInfo = new LocationInfo();
       await locationInfo.getUserLocationData();
