@@ -56,3 +56,15 @@ const kDisabledButtonElevation = 0.0;
 const kEnabledButtonColor = Color(0xFF1e88e5);
 const kEnabledButtonElevation = 2.0;
 const kTransparentBackgroundColor = Color(0xFF1AFFFFFF);
+
+//Todo: Add when no city found.
+AlertDialog kNoCityFoundAlertDialog = AlertDialog(
+  title: Text('Error 404'),
+  content: Text('No City Found'),
+  actions: <Widget>[
+    FlatButton(
+      child: Text('OK'),
+      onPressed: null,
+    ),
+  ],
+);

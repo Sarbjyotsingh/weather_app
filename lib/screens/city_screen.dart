@@ -9,8 +9,9 @@ class CityScreen extends StatefulWidget {
 class _CityScreenState extends State<CityScreen> {
   @override
   Widget build(BuildContext context) {
+    var route = ModalRoute.of(context).settings.name;
     return Container(
-      child: Text('Text'),
+      child: Text('Text $route'),
     );
   }
 }

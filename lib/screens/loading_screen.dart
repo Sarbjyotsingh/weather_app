@@ -10,10 +10,25 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    getUserLocationData();
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 
   void getUserLocationData() async {
@@ -27,7 +42,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Weather weather = new Weather();
       dynamic weatherData = await weather.getLocationWeatherCurrentData(
           longitude: locationInfo.longitude, latitude: locationInfo.latitude);
-      print(weatherData);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -42,12 +56,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getUserLocationData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: SpinKitRing(
-          color: Colors.white,
-          size: 70.0,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Container(
+        child: Center(
+          child: SpinKitRing(
+            color: Colors.white,
+            size: 70.0,
+          ),
         ),
       ),
     );

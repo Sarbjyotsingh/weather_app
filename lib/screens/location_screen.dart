@@ -3,13 +3,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/forecast_screen.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
+import 'package:weather_app/services/location_info.dart';
+import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
 
 // Todo: refactor all code
-//Todo: exit popup o location and loading screen
+//Todo: exit popup on City Screen if no back screen
 
 class LocationScreen extends StatefulWidget {
   final weatherData;
@@ -22,8 +25,8 @@ class _LocationScreenState extends State<LocationScreen> {
   String _currentDateTime;
   String _weatherStatus;
   String _cityName;
-  int _temperature;
-  int _temperatureFeelLike;
+  double _temperature;
+  double _temperatureFeelLike;
   double _wind;
   int _humidity;
   int _pressure;
@@ -57,7 +60,7 @@ class _LocationScreenState extends State<LocationScreen> {
         false;
   }
 
-  void getCurrentDateTimeString() {
+  void _getCurrentDateTimeString() {
     String timeString =
         FormattedDateTime(dateTime: DateTime.now()).getFormattedDateTime();
     setState(() {
@@ -65,39 +68,26 @@ class _LocationScreenState extends State<LocationScreen> {
     });
   }
 
-  void _changeUnitSystemToCelsius() {
-    if (!_celsiusButtonStatus) {
-      setState(() {
-        _celsiusButtonStatus = true;
-        _celsiusButtonColor = kEnabledButtonColor;
-        _celsiusButtonElevation = kEnabledButtonElevation;
-        _fahrenheitButtonStatus = false;
-        _fahrenheitButtonColor = kDisabledButtonColor;
-        _fahrenheitButtonElevation = kDisabledButtonElevation;
-      });
+  void _getUserLocationData() async {
+    // getting user location
+    if (await LocationInfo().getUserLocationAndGPS()) {
+      LocationInfo locationInfo = new LocationInfo();
+      await locationInfo.getUserLocationData();
+      //getting weather data on basis of location
+      Weather weather = new Weather();
+      dynamic weatherData = await weather.getLocationWeatherCurrentData(
+          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
+      _updateUI(weatherData);
     }
   }
 
-  void _changeUnitSystemToFahrenheit() {
-    if (!_fahrenheitButtonStatus) {
-      setState(() {
-        _celsiusButtonStatus = false;
-        _celsiusButtonColor = kDisabledButtonColor;
-        _celsiusButtonElevation = kDisabledButtonElevation;
-        _fahrenheitButtonStatus = true;
-        _fahrenheitButtonColor = kEnabledButtonColor;
-        _fahrenheitButtonElevation = kEnabledButtonElevation;
-      });
-    }
-  }
-
-  void updateUI(dynamic weatherData) {
+  void _updateUI(dynamic weatherData) {
     setState(() {
       try {
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
-        _temperature = weatherData['main']['temp'].toInt();
-        _temperatureFeelLike = weatherData['main']['feels_like'].toInt();
+        _temperature = weatherData['main']['temp'];
+        _temperatureFeelLike = weatherData['main']['feels_like'];
         _wind = weatherData['wind']['speed'].toDouble();
         _humidity = weatherData['main']['humidity'];
         _pressure = weatherData['main']['pressure'];
@@ -118,19 +108,49 @@ class _LocationScreenState extends State<LocationScreen> {
     });
   }
 
+  void _changeUnitSystemToCelsius() {
+    if (!_celsiusButtonStatus) {
+      setState(() {
+        _celsiusButtonStatus = true;
+        _celsiusButtonColor = kEnabledButtonColor;
+        _celsiusButtonElevation = kEnabledButtonElevation;
+        _fahrenheitButtonStatus = false;
+        _fahrenheitButtonColor = kDisabledButtonColor;
+        _fahrenheitButtonElevation = kDisabledButtonElevation;
+        _temperature = ((_temperature - 32) * 5 / 9);
+        _temperatureFeelLike = ((_temperatureFeelLike - 32) * 5 / 9);
+      });
+    }
+  }
+
+  void _changeUnitSystemToFahrenheit() {
+    if (!_fahrenheitButtonStatus) {
+      setState(() {
+        _celsiusButtonStatus = false;
+        _celsiusButtonColor = kDisabledButtonColor;
+        _celsiusButtonElevation = kDisabledButtonElevation;
+        _fahrenheitButtonStatus = true;
+        _fahrenheitButtonColor = kEnabledButtonColor;
+        _fahrenheitButtonElevation = kEnabledButtonElevation;
+        _temperature = ((_temperature * 9) / 5) + 32;
+        _temperatureFeelLike = ((_temperatureFeelLike * 9) / 5) + 32;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    getCurrentDateTimeString();
+    _getCurrentDateTimeString();
     Timer.periodic(
-        Duration(seconds: 1), (Timer t) => getCurrentDateTimeString());
+        Duration(seconds: 1), (Timer t) => _getCurrentDateTimeString());
     _celsiusButtonStatus = true;
     _celsiusButtonColor = kEnabledButtonColor;
     _celsiusButtonElevation = kEnabledButtonElevation;
     _fahrenheitButtonStatus = false;
     _fahrenheitButtonColor = kDisabledButtonColor;
     _fahrenheitButtonElevation = kDisabledButtonElevation;
-    updateUI(widget.weatherData);
+    _updateUI(widget.weatherData);
   }
 
   @override
@@ -152,13 +172,12 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: <Widget>[
                           Expanded(
+                            //Todo: Test this button running or not after completion of city screen
                             child: IconButton(
                               icon: Icon(Icons.gps_fixed),
                               color: Colors.white,
                               iconSize: 33,
-                              onPressed: () {
-                                // Todo:Get weather Data and update UI on set State
-                              },
+                              onPressed: _getUserLocationData,
                             ),
                           ),
                           Expanded(
@@ -177,7 +196,12 @@ class _LocationScreenState extends State<LocationScreen> {
                               ),
                               iconSize: 33,
                               onPressed: () {
-                                Navigator.pushNamed(context, '/CityScreen');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return CityScreen();
+                                  }),
+                                );
                               },
                             ),
                           ),
@@ -213,7 +237,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: <Widget>[
                           Text(
-                            '$_temperature',
+                            '${_temperature.toInt()}',
                             style: TextStyle(
                               fontSize: 70,
                             ),
@@ -305,7 +329,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             child: DetailCardWidget(
                               cardIconData: WeatherIcons.wi_thermometer,
                               cardText: 'Feels like',
-                              cardValue: '$_temperatureFeelLike °',
+                              cardValue: '${_temperatureFeelLike.toInt()} °',
                             ),
                           ),
                           Expanded(
