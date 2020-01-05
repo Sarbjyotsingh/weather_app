@@ -52,7 +52,7 @@ const kCloudyGradient = [
   Color(0xFFb3e5fc),
 ];
 
-IconData kWetWeatherIcon() {
+IconData kGetWeatherIcon() {
   return kDrizzleNightIcon;
 }
 

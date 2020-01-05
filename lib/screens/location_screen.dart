@@ -26,8 +26,8 @@ class _LocationScreenState extends State<LocationScreen> {
   IconData _weatherIcon;
   String _weatherStatus;
   String _cityName;
-  int _temperature;
-  int _temperatureFeelLike;
+  double _temperature;
+  double _temperatureFeelLike;
   double _wind;
   int _humidity;
   int _pressure;
@@ -85,16 +85,22 @@ class _LocationScreenState extends State<LocationScreen> {
   void _updateUI(dynamic weatherData) {
     setState(() {
       try {
-        _weatherIcon = kWetWeatherIcon();
+        _weatherIcon = kGetWeatherIcon();
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
-        _temperature = weatherData['main']['temp'].toInt();
-        _temperatureFeelLike = weatherData['main']['feels_like'].toInt();
+        _temperature = weatherData['main']['temp'];
+        _temperatureFeelLike = weatherData['main']['feels_like'];
         _wind = weatherData['wind']['speed'].toDouble();
         _humidity = weatherData['main']['humidity'].toInt();
         _pressure = weatherData['main']['pressure'].toInt();
         _visibility = weatherData['visibility'].toInt();
         _cloudiness = weatherData['clouds']['all'].toInt();
+        _celsiusButtonStatus = true;
+        _celsiusButtonColor = kEnabledButtonColor;
+        _celsiusButtonElevation = kEnabledButtonElevation;
+        _fahrenheitButtonStatus = false;
+        _fahrenheitButtonColor = kDisabledButtonColor;
+        _fahrenheitButtonElevation = kDisabledButtonElevation;
       } catch (e) {
         _weatherIcon = WeatherIcons.wi_na;
         _cityName = '';
@@ -120,8 +126,8 @@ class _LocationScreenState extends State<LocationScreen> {
         _fahrenheitButtonStatus = false;
         _fahrenheitButtonColor = kDisabledButtonColor;
         _fahrenheitButtonElevation = kDisabledButtonElevation;
-        _temperature = ((_temperature - 32) * 5 ~/ 9);
-        _temperatureFeelLike = ((_temperatureFeelLike - 32) * 5 ~/ 9);
+        _temperature = ((_temperature - 32) * 5 / 9);
+        _temperatureFeelLike = ((_temperatureFeelLike - 32) * 5 / 9);
       });
     }
   }
@@ -135,8 +141,8 @@ class _LocationScreenState extends State<LocationScreen> {
         _fahrenheitButtonStatus = true;
         _fahrenheitButtonColor = kEnabledButtonColor;
         _fahrenheitButtonElevation = kEnabledButtonElevation;
-        _temperature = ((_temperature * 9) ~/ 5) + 32;
-        _temperatureFeelLike = ((_temperatureFeelLike * 9) ~/ 5) + 32;
+        _temperature = ((_temperature * 9) / 5) + 32;
+        _temperatureFeelLike = ((_temperatureFeelLike * 9) / 5) + 32;
       });
     }
   }
