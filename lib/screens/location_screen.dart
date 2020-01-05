@@ -90,7 +90,7 @@ class _LocationScreenState extends State<LocationScreen> {
         _cityName = weatherData['name'];
         _temperature = weatherData['main']['temp'];
         _temperatureFeelLike = weatherData['main']['feels_like'];
-        _wind = weatherData['wind']['speed'].toDouble();
+        _wind = weatherData['wind']['speed'];
         _humidity = weatherData['main']['humidity'].toInt();
         _pressure = weatherData['main']['pressure'].toInt();
         _visibility = weatherData['visibility'].toInt();
