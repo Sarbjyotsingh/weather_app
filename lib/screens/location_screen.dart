@@ -88,9 +88,9 @@ class _LocationScreenState extends State<LocationScreen> {
         _weatherIcon = kGetWeatherIcon();
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
-        _temperature = weatherData['main']['temp'];
-        _temperatureFeelLike = weatherData['main']['feels_like'];
-        _wind = weatherData['wind']['speed'];
+        _temperature = weatherData['main']['temp'].toDouble();
+        _temperatureFeelLike = weatherData['main']['feels_like'].toDouble();
+        _wind = weatherData['wind']['speed'].toDouble();
         _humidity = weatherData['main']['humidity'].toInt();
         _pressure = weatherData['main']['pressure'].toInt();
         _visibility = weatherData['visibility'].toInt();
@@ -246,7 +246,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: <Widget>[
                           Text(
-                            '${_temperature.toInt()}',
+                            '${_temperature != null ? _temperature.toInt() : _temperature}',
                             style: TextStyle(
                               fontSize: 70,
                             ),
@@ -338,7 +338,8 @@ class _LocationScreenState extends State<LocationScreen> {
                             child: DetailCardWidget(
                               cardIconData: WeatherIcons.wi_thermometer,
                               cardText: 'Feels like',
-                              cardValue: '${_temperatureFeelLike.toInt()} °',
+                              cardValue:
+                                  '${_temperatureFeelLike != null ? _temperatureFeelLike.toInt() : _temperatureFeelLike} °',
                             ),
                           ),
                           Expanded(
