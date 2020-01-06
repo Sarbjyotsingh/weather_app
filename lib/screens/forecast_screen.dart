@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/utilities/constants.dart';
-
-import '../utilities/constants.dart';
 
 //Todo: add an exception that when Error is in  Location Screen
 // Todo:  don't make weather data parameter as compulsory as empty data can be passed on error
@@ -15,7 +12,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: kGradientBackground,
+        //   decoration: kBackgroundScreen(),
         child: SafeArea(
           child: Text(''),
         ),

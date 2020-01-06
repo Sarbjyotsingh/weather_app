@@ -1,13 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-const kGradientBackground = BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: kClearNightGradient,
-  ),
-);
+IconData kGetWeatherIcon({@required String iconID}) {
+  if (iconID == '11d') {
+    return WeatherIcons.wi_day_thunderstorm;
+  } else if (iconID == '11n') {
+    return WeatherIcons.wi_night_alt_thunderstorm;
+  } else if (iconID == '09d') {
+    return WeatherIcons.wi_day_rain_mix;
+  } else if (iconID == '09n') {
+    return WeatherIcons.wi_night_alt_rain_mix;
+  } else if (iconID == '10d') {
+    return WeatherIcons.wi_day_rain;
+  } else if (iconID == '10n') {
+    return WeatherIcons.wi_night_alt_rain;
+  } else if (iconID == '13d') {
+    return WeatherIcons.wi_day_snow;
+  } else if (iconID == '13n') {
+    return WeatherIcons.wi_night_alt_snow;
+  } else if (iconID == '50d') {
+    return WeatherIcons.wi_day_fog;
+  } else if (iconID == '50n') {
+    return WeatherIcons.wi_night_fog;
+  } else if (iconID == '03d' || iconID == '02d') {
+    return WeatherIcons.wi_day_sunny_overcast;
+  } else if (iconID == '03d' || iconID == '02n') {
+    return WeatherIcons.wi_night_alt_partly_cloudy;
+  } else if (iconID == '04d') {
+    return WeatherIcons.wi_day_cloudy;
+  } else if (iconID == '04n') {
+    return WeatherIcons.wi_night_alt_cloudy;
+  } else if (iconID == '01d') {
+    return WeatherIcons.wi_day_sunny;
+  } else
+    return WeatherIcons.wi_night_clear;
+}
+
+List<Color> kGradientBackground(
+    {int cityID = 800,
+    String cityIconID = '00n',
+    double currentTemperature = 20}) {
+  if (cityIconID[2] == 'd') {
+    if (currentTemperature > 25) {
+      return kHotDayGradient;
+    } else if (cityID >= 200 && cityID <= 232) {
+      return kStormGradient;
+    } else if (cityID >= 300 && cityID <= 321) {
+      return kCloudyGradient;
+    } else if (cityID >= 500 && cityID <= 531) {
+      return kCloudyGradient;
+    } else if (cityID >= 600 && cityID <= 622) {
+      return kSleetDayGradient;
+    } else if (cityID == 701 ||
+        cityID == 711 ||
+        cityID == 721 ||
+        cityID == 741) {
+      return kFogGradient;
+    } else if (cityID == 731 || cityID == 751 || cityID == 761) {
+      return kSandStormGradient;
+    } else if (cityID == 762 || cityID == 771 || cityID == 781) {
+      return kTornadoGradient;
+    } else
+      return kClearSkyGradient;
+  } else
+    return kClearNightGradient;
+}
+
 const kClearNightGradient = [
   Color(0xFF090926),
   Color(0xFF8F5E7D),
@@ -51,41 +109,6 @@ const kCloudyGradient = [
   Color(0xFF1F6AB5),
   Color(0xFFb3e5fc),
 ];
-
-IconData kGetWeatherIcon({@required String iconID}) {
-  if (iconID == '11d') {
-    return WeatherIcons.wi_day_thunderstorm;
-  } else if (iconID == '11n') {
-    return WeatherIcons.wi_night_alt_thunderstorm;
-  } else if (iconID == '09d') {
-    return WeatherIcons.wi_day_rain_mix;
-  } else if (iconID == '09n') {
-    return WeatherIcons.wi_night_alt_rain_mix;
-  } else if (iconID == '10d') {
-    return WeatherIcons.wi_day_rain;
-  } else if (iconID == '10n') {
-    return WeatherIcons.wi_night_alt_rain;
-  } else if (iconID == '13d') {
-    return WeatherIcons.wi_day_snow;
-  } else if (iconID == '13n') {
-    return WeatherIcons.wi_night_alt_snow;
-  } else if (iconID == '50d') {
-    return WeatherIcons.wi_day_fog;
-  } else if (iconID == '50n') {
-    return WeatherIcons.wi_night_fog;
-  } else if (iconID == '03d' || iconID == '02d') {
-    return WeatherIcons.wi_day_sunny_overcast;
-  } else if (iconID == '03d' || iconID == '02n') {
-    return WeatherIcons.wi_night_alt_partly_cloudy;
-  } else if (iconID == '04d') {
-    return WeatherIcons.wi_day_cloudy;
-  } else if (iconID == '04n') {
-    return WeatherIcons.wi_night_alt_cloudy;
-  } else if (iconID == '01d') {
-    return WeatherIcons.wi_day_sunny;
-  } else
-    return WeatherIcons.wi_night_clear;
-}
 
 const kClearDayIcon = WeatherIcons.wi_day_sunny;
 const kClearNightIcon = WeatherIcons.wi_night_clear;

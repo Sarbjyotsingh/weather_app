@@ -11,6 +11,8 @@ import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
 
+import '../utilities/constants.dart';
+
 // Todo: refactor all code
 //Todo: exit popup on City Screen if no back screen
 
@@ -22,8 +24,10 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  int _currentCityId;
   String _currentDateTime;
   IconData _weatherIcon;
+  String _weatherIconId;
   String _weatherStatus;
   String _cityName;
   double _temperature;
@@ -39,6 +43,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Color _fahrenheitButtonColor;
   double _celsiusButtonElevation;
   double _fahrenheitButtonElevation;
+  BoxDecoration _boxDecoration;
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -85,8 +90,9 @@ class _LocationScreenState extends State<LocationScreen> {
   void _updateUI(dynamic weatherData) {
     setState(() {
       try {
-        _weatherIcon =
-            kGetWeatherIcon(iconID: weatherData['weather'][0]['icon']);
+        _currentCityId = weatherData['weather'][0]['id'];
+        _weatherIconId = weatherData['weather'][0]['icon'];
+        _weatherIcon = kGetWeatherIcon(iconID: _weatherIconId);
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
         _temperature = weatherData['main']['temp'].toDouble();
@@ -161,6 +167,16 @@ class _LocationScreenState extends State<LocationScreen> {
     _fahrenheitButtonColor = kDisabledButtonColor;
     _fahrenheitButtonElevation = kDisabledButtonElevation;
     _updateUI(widget.weatherData);
+    _boxDecoration = BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: kGradientBackground(
+            cityID: _currentCityId,
+            currentTemperature: _temperature,
+            cityIconID: _weatherIconId),
+      ),
+    );
   }
 
   @override
@@ -169,7 +185,7 @@ class _LocationScreenState extends State<LocationScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
-          decoration: kGradientBackground,
+          decoration: _boxDecoration,
           constraints: BoxConstraints.expand(),
           child: SafeArea(
             child: Column(

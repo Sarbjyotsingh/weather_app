@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/utilities/constants.dart';
 
 //Todo: On returning (By button of return without entering city)to Location Screen use Navigator Push Replacement
 class CityScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _CityScreenState extends State<CityScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Container(
-        decoration: kGradientBackground,
+        // decoration: kBackgroundScreen(),
         child: SafeArea(
           child: Text('Text $route'),
         ),
