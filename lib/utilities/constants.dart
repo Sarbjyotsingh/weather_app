@@ -52,8 +52,39 @@ const kCloudyGradient = [
   Color(0xFFb3e5fc),
 ];
 
-IconData kGetWeatherIcon() {
-  return kDrizzleNightIcon;
+IconData kGetWeatherIcon({@required String iconID}) {
+  if (iconID == '11d') {
+    return WeatherIcons.wi_day_thunderstorm;
+  } else if (iconID == '11n') {
+    return WeatherIcons.wi_night_alt_thunderstorm;
+  } else if (iconID == '09d') {
+    return WeatherIcons.wi_day_rain_mix;
+  } else if (iconID == '09n') {
+    return WeatherIcons.wi_night_alt_rain_mix;
+  } else if (iconID == '10d') {
+    return WeatherIcons.wi_day_rain;
+  } else if (iconID == '10n') {
+    return WeatherIcons.wi_night_alt_rain;
+  } else if (iconID == '13d') {
+    return WeatherIcons.wi_day_snow;
+  } else if (iconID == '13n') {
+    return WeatherIcons.wi_night_alt_snow;
+  } else if (iconID == '50d') {
+    return WeatherIcons.wi_day_fog;
+  } else if (iconID == '50n') {
+    return WeatherIcons.wi_night_fog;
+  } else if (iconID == '03d' || iconID == '02d') {
+    return WeatherIcons.wi_day_sunny_overcast;
+  } else if (iconID == '03d' || iconID == '02n') {
+    return WeatherIcons.wi_night_alt_partly_cloudy;
+  } else if (iconID == '04d') {
+    return WeatherIcons.wi_day_cloudy;
+  } else if (iconID == '04n') {
+    return WeatherIcons.wi_night_alt_cloudy;
+  } else if (iconID == '01d') {
+    return WeatherIcons.wi_day_sunny;
+  } else
+    return WeatherIcons.wi_night_clear;
 }
 
 const kClearDayIcon = WeatherIcons.wi_day_sunny;

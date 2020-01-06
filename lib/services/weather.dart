@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weather_app/services/networking.dart';
 
-//Todo: add gradient coding here as it is related to weather
+//Todo: add gradient coding here as it is related to weather and icon coding
 
 class Weather {
   final _apiKey = '&units=metric&appid=9d868bd4b3091ce45569039efaf4191f';

@@ -85,7 +85,8 @@ class _LocationScreenState extends State<LocationScreen> {
   void _updateUI(dynamic weatherData) {
     setState(() {
       try {
-        _weatherIcon = kGetWeatherIcon();
+        _weatherIcon =
+            kGetWeatherIcon(iconID: weatherData['weather'][0]['icon']);
         _weatherStatus = weatherData['weather'][0]['main'];
         _cityName = weatherData['name'];
         _temperature = weatherData['main']['temp'].toDouble();
@@ -235,7 +236,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             size: 40.0,
                           ),
                           SizedBox(
-                            width: 10,
+                            width: 15,
                           ),
                           Text(
                             _weatherStatus,
