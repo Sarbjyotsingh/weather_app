@@ -202,7 +202,7 @@ class _LocationScreenState extends State<LocationScreen> {
         _gradientBackgroundColor = kGradientBackground(
             cityID: _currentCityId,
             currentTemperature: _temperature,
-            cityIconID: '00d');
+            cityIconID: _weatherIconId);
         _boxDecoration = BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
