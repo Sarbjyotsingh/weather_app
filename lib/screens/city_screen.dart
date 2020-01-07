@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../utilities/constants.dart';
 
 //Todo: check internet connectivity before searching for city
-//Todo: On returning (By button of return without entering city)to Location Screen use Navigator Push Replacement
 class CityScreen extends StatefulWidget {
   final List<Color> gradientBackgroundColor;
   CityScreen({this.gradientBackgroundColor = kClearNightGradient});
@@ -48,34 +47,72 @@ class _CityScreenState extends State<CityScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: widget.gradientBackgroundColor,
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            currentFocus.unfocus();
+          },
+          child: Container(
+            constraints: BoxConstraints.expand(),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: widget.gradientBackgroundColor,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: FlatButton(
-                    onPressed: () {
-                      if (ModalRoute.of(context).settings.name != null) {
-                        _onWillPop();
-                      } else
-                        Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 33.0,
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: FlatButton(
+                      onPressed: () {
+                        if (ModalRoute.of(context).settings.name != null) {
+                          _onWillPop();
+                        } else
+                          Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 33.0,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    padding: EdgeInsets.all(20.0),
+                    child: TextField(
+                      decoration: kInputTextDecoration,
+                      onChanged: (value) {
+                        cityName = value;
+                      },
+                      onSubmitted: (String value) {
+                        if (cityName == null && cityName == '') {
+                          Navigator.pop(context, value);
+                        }
+                      },
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: FlatButton(
+                      child: Text(
+                        'Get Weather',
+                      ),
+                      color: kEnabledButtonColor,
+                      onPressed: () {
+                        if (cityName == null && cityName == '') {
+                          Navigator.pop(context, cityName);
+                        }
+                      },
+                      padding: EdgeInsets.symmetric(horizontal: 35),
+                    ),
+                  ),
+                  Container(),
+                ],
+              ),
             ),
           ),
         ),

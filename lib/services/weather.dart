@@ -14,7 +14,7 @@ class Weather {
     return await networkHelper.getResponseData();
   }
 
-  // Todo: get stream of data
+  // Todo: get stream of data by city name only
 
 // For stream of data: dio package (weather forecast)
 //  Future<dynamic> getLocationWeatherForecastData(
@@ -24,4 +24,5 @@ class Weather {
 //    return await networkHelper.getResponseData();
 //  }
 
+  Future getCityWeatherCurrentData({@required String cityName}) {}
 }

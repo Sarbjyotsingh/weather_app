@@ -78,6 +78,18 @@ List<Color> kGradientBackground(
     return kClearNightGradient;
 }
 
+const kInputTextDecoration = InputDecoration(
+  filled: true,
+  fillColor: Colors.white,
+  hintText: 'Enter City Name ',
+  hintStyle: TextStyle(color: Colors.grey),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(20.0),
+    ),
+    borderSide: BorderSide.none,
+  ),
+);
 const kClearNightGradient = [
   Color(0xFF090926),
   Color(0xFF8F5E7D),
@@ -144,15 +156,3 @@ const kDisabledButtonElevation = 0.0;
 const kEnabledButtonColor = Color(0xFF1e88e5);
 const kEnabledButtonElevation = 2.0;
 const kTransparentBackgroundColor = Color(0xFF1AFFFFFF);
-
-//Todo: Add when no city found.
-AlertDialog kNoCityFoundAlertDialog = AlertDialog(
-  title: Text('Error 404'),
-  content: Text('No City Found'),
-  actions: <Widget>[
-    FlatButton(
-      child: Text('OK'),
-      onPressed: null,
-    ),
-  ],
-);

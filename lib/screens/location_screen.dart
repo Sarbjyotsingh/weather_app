@@ -115,6 +115,42 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
+//  void _getUserCityData() async {
+//    //Checking Internet Connection
+//    if (await kInternetConnectivityChecker() == true) {
+//      //getting weather data on basis of City Name
+//      Weather weather = new Weather();
+//      dynamic weatherData = await weather.getLocationWeatherCurrentData(
+//          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
+//      _updateUI(weatherData);
+//    } else {
+//      showDialog(
+//        context: context,
+//        builder: (context) => new AlertDialog(
+//          title: new Text(' No Internet '),
+//          content: new Text(
+//              'This app requires Internet connection. Do you want to continue?'),
+//          actions: <Widget>[
+//            new FlatButton(
+//              onPressed: () => Navigator.pop(context),
+//              child: new Text('cancel'),
+//            ),
+//            new FlatButton(
+//              onPressed: () async {
+//                if (await kInternetConnectivityChecker() == false) {
+//                  OpenSettings.openWIFISetting();
+//                }
+//                Navigator.pop(context);
+//                _getUserLocationData();
+//              },
+//              child: new Text('ok'),
+//            ),
+//          ],
+//        ),
+//      );
+//    }
+//  }
+
   void _updateUI(dynamic weatherData) {
     setState(() {
       try {
