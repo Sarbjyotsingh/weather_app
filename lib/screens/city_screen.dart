@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../utilities/constants.dart';
+
 //Todo: check internet connectivity before searching for city
 //Todo: On returning (By button of return without entering city)to Location Screen use Navigator Push Replacement
 class CityScreen extends StatefulWidget {
+  final List<Color> gradientBackgroundColor;
+  CityScreen({this.gradientBackgroundColor = kClearNightGradient});
   @override
   _CityScreenState createState() => _CityScreenState();
 }
@@ -42,7 +46,14 @@ class _CityScreenState extends State<CityScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Container(
-        // decoration: kBackgroundScreen(),
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: widget.gradientBackgroundColor,
+          ),
+        ),
         child: SafeArea(
           child: Text('Text $route'),
         ),

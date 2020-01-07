@@ -12,8 +12,6 @@ import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
 
-import '../utilities/constants.dart';
-
 // Todo: refactor all code
 //Todo: exit popup on City Screen if no back screen
 
@@ -198,6 +196,7 @@ class _LocationScreenState extends State<LocationScreen> {
             builder: (context) {
               return ForecastScreen(
                 gradientBackgroundColor: _gradientBackgroundColor,
+                cityName: _cityName,
               );
             },
           ),
@@ -298,7 +297,10 @@ class _LocationScreenState extends State<LocationScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) {
-                                    return CityScreen();
+                                    return CityScreen(
+                                      gradientBackgroundColor:
+                                          _gradientBackgroundColor,
+                                    );
                                   }),
                                 );
                               },
