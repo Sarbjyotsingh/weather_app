@@ -87,9 +87,7 @@ class _CityScreenState extends State<CityScreen> {
                         cityName = value;
                       },
                       onSubmitted: (String value) {
-                        if (cityName == null && cityName == '') {
-                          Navigator.pop(context, value);
-                        }
+                        Navigator.pop(context, value);
                       },
                       style: TextStyle(
                         color: Colors.black,
@@ -103,9 +101,7 @@ class _CityScreenState extends State<CityScreen> {
                       ),
                       color: kEnabledButtonColor,
                       onPressed: () {
-                        if (cityName == null && cityName == '') {
-                          Navigator.pop(context, cityName);
-                        }
+                        Navigator.pop(context, cityName);
                       },
                       padding: EdgeInsets.symmetric(horizontal: 35),
                     ),

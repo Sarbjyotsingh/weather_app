@@ -24,5 +24,9 @@ class Weather {
 //    return await networkHelper.getResponseData();
 //  }
 
-  Future getCityWeatherCurrentData({@required String cityName}) {}
+  Future getCityWeatherCurrentData({@required String cityName}) async {
+    NetworkHelper networkHelper =
+        new NetworkHelper(url: '${_apiURL}weather?q=$cityName$_apiKey');
+    return await networkHelper.getResponseData();
+  }
 }

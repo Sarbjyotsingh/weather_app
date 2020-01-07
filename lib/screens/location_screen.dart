@@ -74,7 +74,7 @@ class _LocationScreenState extends State<LocationScreen> {
     });
   }
 
-  void _getUserLocationData() async {
+  void _getUserLocationWeatherData() async {
     //Checking Internet Connection
     if (await kInternetConnectivityChecker() == true) {
       // getting user location
@@ -105,7 +105,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   OpenSettings.openWIFISetting();
                 }
                 Navigator.pop(context);
-                _getUserLocationData();
+                _getUserLocationWeatherData();
               },
               child: new Text('ok'),
             ),
@@ -115,41 +115,69 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
-//  void _getUserCityData() async {
-//    //Checking Internet Connection
-//    if (await kInternetConnectivityChecker() == true) {
-//      //getting weather data on basis of City Name
-//      Weather weather = new Weather();
-//      dynamic weatherData = await weather.getLocationWeatherCurrentData(
-//          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
-//      _updateUI(weatherData);
-//    } else {
-//      showDialog(
-//        context: context,
-//        builder: (context) => new AlertDialog(
-//          title: new Text(' No Internet '),
-//          content: new Text(
-//              'This app requires Internet connection. Do you want to continue?'),
-//          actions: <Widget>[
-//            new FlatButton(
-//              onPressed: () => Navigator.pop(context),
-//              child: new Text('cancel'),
-//            ),
-//            new FlatButton(
-//              onPressed: () async {
-//                if (await kInternetConnectivityChecker() == false) {
-//                  OpenSettings.openWIFISetting();
-//                }
-//                Navigator.pop(context);
-//                _getUserLocationData();
-//              },
-//              child: new Text('ok'),
-//            ),
-//          ],
-//        ),
-//      );
-//    }
-//  }
+  void _getUserCityWeatherData() async {
+    var typedName = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return CityScreen(
+          gradientBackgroundColor: _gradientBackgroundColor,
+        );
+      }),
+    );
+    if (typedName != null) {
+      //Checking Internet Connection
+      if (await kInternetConnectivityChecker() == true) {
+        //getting weather data on basis of City Name
+        Weather weather = new Weather();
+        dynamic weatherData =
+            await weather.getCityWeatherCurrentData(cityName: typedName);
+        _updateUI(weatherData);
+        if (weatherData == 404) {
+          showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Error 404'),
+              content: new Text('City Not Found'),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _getUserCityWeatherData();
+                  },
+                  child: new Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(' No Internet '),
+            content: new Text(
+                'This app requires Internet connection. Do you want to continue?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: new Text('cancel'),
+              ),
+              new FlatButton(
+                onPressed: () async {
+                  if (await kInternetConnectivityChecker() == false) {
+                    OpenSettings.openWIFISetting();
+                  }
+                  Navigator.pop(context);
+                  _getUserCityWeatherData();
+                },
+                child: new Text('ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
 
   void _updateUI(dynamic weatherData) {
     setState(() {
@@ -311,7 +339,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               icon: Icon(Icons.gps_fixed),
                               color: Colors.white,
                               iconSize: 33,
-                              onPressed: _getUserLocationData,
+                              onPressed: _getUserLocationWeatherData,
                             ),
                           ),
                           Expanded(
@@ -325,22 +353,11 @@ class _LocationScreenState extends State<LocationScreen> {
                           ),
                           Expanded(
                             child: IconButton(
-                              icon: Icon(
-                                Icons.search,
-                              ),
-                              iconSize: 33,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return CityScreen(
-                                      gradientBackgroundColor:
-                                          _gradientBackgroundColor,
-                                    );
-                                  }),
-                                );
-                              },
-                            ),
+                                icon: Icon(
+                                  Icons.search,
+                                ),
+                                iconSize: 33,
+                                onPressed: _getUserCityWeatherData),
                           ),
                         ],
                       ),
