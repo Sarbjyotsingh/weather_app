@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:open_settings/open_settings.dart';
 import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/forecast_screen.dart';
 import 'package:weather_app/services/formatted_date_time.dart';
@@ -44,6 +45,7 @@ class _LocationScreenState extends State<LocationScreen> {
   double _celsiusButtonElevation;
   double _fahrenheitButtonElevation;
   BoxDecoration _boxDecoration;
+  List<Color> _gradientBackgroundColor;
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -75,15 +77,43 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void _getUserLocationData() async {
-    // getting user location
-    if (await LocationInfo().getUserLocationAndGPS()) {
-      LocationInfo locationInfo = new LocationInfo();
-      await locationInfo.getUserLocationData();
-      //getting weather data on basis of location
-      Weather weather = new Weather();
-      dynamic weatherData = await weather.getLocationWeatherCurrentData(
-          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
-      _updateUI(weatherData);
+    //Checking Internet Connection
+    if (await kInternetConnectivityChecker() == true) {
+      // getting user location
+      if (await LocationInfo().getUserLocationAndGPS()) {
+        LocationInfo locationInfo = new LocationInfo();
+        await locationInfo.getUserLocationData();
+        //getting weather data on basis of location
+        Weather weather = new Weather();
+        dynamic weatherData = await weather.getLocationWeatherCurrentData(
+            longitude: locationInfo.longitude, latitude: locationInfo.latitude);
+        _updateUI(weatherData);
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text(' No Internet '),
+          content: new Text(
+              'This app requires Internet connection. Do you want to continue?'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.pop(context),
+              child: new Text('cancel'),
+            ),
+            new FlatButton(
+              onPressed: () async {
+                if (await kInternetConnectivityChecker() == false) {
+                  OpenSettings.openWIFISetting();
+                }
+                Navigator.pop(context);
+                _getUserLocationData();
+              },
+              child: new Text('ok'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -108,6 +138,10 @@ class _LocationScreenState extends State<LocationScreen> {
         _fahrenheitButtonStatus = false;
         _fahrenheitButtonColor = kDisabledButtonColor;
         _fahrenheitButtonElevation = kDisabledButtonElevation;
+        _gradientBackgroundColor = kGradientBackground(
+            cityID: _currentCityId,
+            currentTemperature: _temperature,
+            cityIconID: _weatherIconId);
       } catch (e) {
         _weatherIcon = WeatherIcons.wi_na;
         _cityName = '';
@@ -119,6 +153,10 @@ class _LocationScreenState extends State<LocationScreen> {
         _pressure = null;
         _visibility = null;
         _cloudiness = null;
+        _gradientBackgroundColor = [
+          Color(0xFF090926),
+          Color(0xFF8F5E7D),
+        ];
         print(e);
       }
     });
@@ -154,6 +192,48 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
+  void _getForecastData() async {
+    {
+      if (await kInternetConnectivityChecker() == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ForecastScreen(
+                gradientBackgroundColor: _gradientBackgroundColor,
+              );
+            },
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(' No Internet '),
+            content: new Text(
+                'This app requires Internet connection. Do you want to continue?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: new Text('cancel'),
+              ),
+              new FlatButton(
+                onPressed: () async {
+                  if (await kInternetConnectivityChecker() == false) {
+                    OpenSettings.openWIFISetting();
+                  }
+                  Navigator.pop(context);
+                  _getForecastData();
+                },
+                child: new Text('ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -171,10 +251,7 @@ class _LocationScreenState extends State<LocationScreen> {
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: kGradientBackground(
-            cityID: _currentCityId,
-            currentTemperature: _temperature,
-            cityIconID: _weatherIconId),
+        colors: _gradientBackgroundColor,
       ),
     );
   }
@@ -185,7 +262,7 @@ class _LocationScreenState extends State<LocationScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
-          decoration: _boxDecoration,
+          decoration: _boxDecoration ?? null,
           constraints: BoxConstraints.expand(),
           child: SafeArea(
             child: Column(
@@ -310,28 +387,18 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
                 Container(
                   child: RaisedButton(
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(FontAwesome.line_chart),
-                          Text('Forecast'),
-                        ],
-                      ),
-                    ),
-                    color: kTransparentBackgroundColor,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ForecastScreen();
-                          },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(FontAwesome.line_chart),
+                            Text('Forecast'),
+                          ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                      color: kTransparentBackgroundColor,
+                      onPressed: _getForecastData),
                 ),
                 Container(
                   padding: EdgeInsets.all(25.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Todo: check internet connectivity before searching for city
 //Todo: On returning (By button of return without entering city)to Location Screen use Navigator Push Replacement
 class CityScreen extends StatefulWidget {
   @override
