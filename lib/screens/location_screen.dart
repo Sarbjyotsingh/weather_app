@@ -153,10 +153,7 @@ class _LocationScreenState extends State<LocationScreen> {
         _pressure = null;
         _visibility = null;
         _cloudiness = null;
-        _gradientBackgroundColor = [
-          Color(0xFF090926),
-          Color(0xFF8F5E7D),
-        ];
+        _gradientBackgroundColor = kClearNightGradient;
         print(e);
       }
     });
@@ -328,7 +325,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             size: 40.0,
                           ),
                           SizedBox(
-                            width: 15,
+                            width: 30,
                           ),
                           Text(
                             _weatherStatus,

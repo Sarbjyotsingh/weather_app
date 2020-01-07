@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 //Todo: add an exception that when Error is in  Location Screen
-// Todo:  don't make weather data parameter as compulsory as empty data can be passed on error
+//Todo:  don't make weather data parameter as compulsory as empty data can be passed on error
+//Todo: also get city name and call API also check if data not found
 class ForecastScreen extends StatefulWidget {
   final List<Color> gradientBackgroundColor;
   ForecastScreen({@required this.gradientBackgroundColor});
-
   @override
   _ForecastScreenState createState() => _ForecastScreenState();
 }
