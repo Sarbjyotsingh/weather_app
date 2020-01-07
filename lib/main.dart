@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 
+import 'screens/city_screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -25,6 +27,9 @@ class _MyAppState extends State<MyApp> {
           body1: TextStyle(fontFamily: 'Montserrat'),
         ),
       ),
+      routes: {
+        '/CityScreen': (context) => CityScreen(),
+      },
       home: LoadingScreen(),
     );
   }

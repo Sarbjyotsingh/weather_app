@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_settings/open_settings.dart';
-import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
@@ -42,14 +41,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (await kInternetConnectivityChecker() == true) {
       // getting user location
       if (!await LocationInfo().getUserLocationAndGPS()) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return CityScreen();
-            },
-          ),
-        );
+        Navigator.pushReplacementNamed(context, '/CityScreen');
       } else {
         LocationInfo locationInfo = new LocationInfo();
         await locationInfo.getUserLocationData();

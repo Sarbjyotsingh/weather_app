@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../utilities/constants.dart';
@@ -12,6 +14,7 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String cityName;
 // only show exit popup when Routing from loading screen and press back button
   Future<bool> _onWillPop() async {
     var route = ModalRoute.of(context).settings.name;
@@ -27,7 +30,7 @@ class _CityScreenState extends State<CityScreen> {
                   child: new Text('No'),
                 ),
                 new FlatButton(
-                  onPressed: () => Navigator.of(context).pop(true),
+                  onPressed: () => exit(0),
                   child: new Text('Yes'),
                 ),
               ],
@@ -42,20 +45,39 @@ class _CityScreenState extends State<CityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var route = ModalRoute.of(context).settings.name;
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: widget.gradientBackgroundColor,
+      child: Scaffold(
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: widget.gradientBackgroundColor,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Text('Text $route'),
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: FlatButton(
+                    onPressed: () {
+                      if (ModalRoute.of(context).settings.name != null) {
+                        _onWillPop();
+                      } else
+                        Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 33.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
