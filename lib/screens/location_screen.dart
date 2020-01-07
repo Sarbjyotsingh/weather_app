@@ -13,7 +13,6 @@ import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
 
 // Todo: refactor all code
-//Todo: exit popup on City Screen if no back screen
 
 class LocationScreen extends StatefulWidget {
   final weatherData;

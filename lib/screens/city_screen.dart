@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../utilities/constants.dart';
 
-//Todo: check internet connectivity before searching for city
 class CityScreen extends StatefulWidget {
   final List<Color> gradientBackgroundColor;
   CityScreen({this.gradientBackgroundColor = kClearNightGradient});

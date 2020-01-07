@@ -30,8 +30,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
         children: <Widget>[
           Icon(
             widget.cardIconData,
-            color:
-                kClearNightGradient[0], //Todo: change color according to screen
+            color: kClearNightGradient[0],
           ),
           SizedBox(
             height: 12.0,
