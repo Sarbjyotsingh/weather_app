@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:open_settings/open_settings.dart';
 import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
+
+import '../utilities/constants.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -33,31 +38,59 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getUserLocationData() async {
-    // getting user location
-    if (!await LocationInfo().getUserLocationAndGPS()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return CityScreen();
-          },
-        ),
-      );
+    //Checking Internet Connection
+    if (await kInternetConnectivityChecker() == true) {
+      // getting user location
+      if (!await LocationInfo().getUserLocationAndGPS()) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return CityScreen();
+            },
+          ),
+        );
+      } else {
+        LocationInfo locationInfo = new LocationInfo();
+        await locationInfo.getUserLocationData();
+        //getting weather data on basis of location
+        Weather weather = new Weather();
+        dynamic weatherData = await weather.getLocationWeatherCurrentData(
+            longitude: locationInfo.longitude, latitude: locationInfo.latitude);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return LocationScreen(
+                weatherData: weatherData,
+              );
+            },
+          ),
+        );
+      }
     } else {
-      LocationInfo locationInfo = new LocationInfo();
-      await locationInfo.getUserLocationData();
-      //getting weather data on basis of location
-      Weather weather = new Weather();
-      dynamic weatherData = await weather.getLocationWeatherCurrentData(
-          longitude: locationInfo.longitude, latitude: locationInfo.latitude);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return LocationScreen(
-              weatherData: weatherData,
-            );
-          },
+      showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text(' No Internet '),
+          content: new Text(
+              'This app requires Internet connection. Do you want to continue?'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => exit(0),
+              child: new Text('cancel'),
+            ),
+            new FlatButton(
+              onPressed: () async {
+                if (await kInternetConnectivityChecker() == false) {
+                  OpenSettings.openWIFISetting();
+                }
+                Navigator.pop(context);
+                getUserLocationData();
+              },
+              child: new Text('ok'),
+            ),
+          ],
         ),
       );
     }

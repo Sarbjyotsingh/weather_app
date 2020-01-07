@@ -198,7 +198,6 @@ class _LocationScreenState extends State<LocationScreen> {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            //Todo: Test this button running or not after completion of city screen
                             child: IconButton(
                               icon: Icon(Icons.gps_fixed),
                               color: Colors.white,

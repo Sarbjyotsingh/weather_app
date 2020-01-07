@@ -18,4 +18,5 @@ class NetworkHelper {
   }
   // todo: For stream of data: dio package (weather forecast)
   //Future<dynamic> getStreamResponseData() async {}
+
 }

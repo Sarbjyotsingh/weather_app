@@ -1,5 +1,17 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+
+Future<bool> kInternetConnectivityChecker() async {
+  var connectivityResult = (await Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.mobile ||
+      connectivityResult == ConnectivityResult.wifi) {
+    // I am connected to a mobile network or wifi network.
+    return true;
+  } else {
+    return false;
+  }
+}
 
 IconData kGetWeatherIcon({@required String iconID}) {
   if (iconID == '11d') {
