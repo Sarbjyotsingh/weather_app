@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:weather_app/screens/city_screen.dart';
 import 'package:weather_app/screens/forecast_screen.dart';
@@ -11,7 +12,7 @@ import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
-
+// import 'package:flutter_spinkit/flutter_spinkit.dart';
 // Todo: refactor all code
 
 class LocationScreen extends StatefulWidget {
@@ -43,6 +44,7 @@ class _LocationScreenState extends State<LocationScreen> {
   double _fahrenheitButtonElevation;
   BoxDecoration _boxDecoration;
   List<Color> _gradientBackgroundColor;
+  bool _pressAttention = true;
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -87,30 +89,7 @@ class _LocationScreenState extends State<LocationScreen> {
         _updateUI(weatherData);
       }
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          title: new Text(' No Internet '),
-          content: new Text(
-              'This app requires Internet connection. Do you want to continue?'),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: new Text('cancel'),
-            ),
-            new FlatButton(
-              onPressed: () async {
-                if (await kInternetConnectivityChecker() == false) {
-                  OpenSettings.openWIFISetting();
-                }
-                Navigator.pop(context);
-                _getUserLocationWeatherData();
-              },
-              child: new Text('ok'),
-            ),
-          ],
-        ),
-      );
+      _noInternetConnectionPopup();
     }
   }
 
@@ -132,48 +111,37 @@ class _LocationScreenState extends State<LocationScreen> {
             await weather.getCityWeatherCurrentData(cityName: typedName);
         _updateUI(weatherData);
         if (weatherData == 404) {
-          showDialog(
-            context: context,
-            builder: (context) => new AlertDialog(
-              title: new Text('Error 404'),
-              content: new Text('City Not Found'),
-              actions: <Widget>[
-                new FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _getUserCityWeatherData();
-                  },
-                  child: new Text('OK'),
-                ),
-              ],
-            ),
-          );
+          _cityNotFoundPopUp();
         }
       } else {
-        showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(' No Internet '),
-            content: new Text(
-                'This app requires Internet connection. Do you want to continue?'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.pop(context),
-                child: new Text('cancel'),
-              ),
-              new FlatButton(
-                onPressed: () async {
-                  if (await kInternetConnectivityChecker() == false) {
-                    OpenSettings.openWIFISetting();
-                  }
-                  Navigator.pop(context);
-                  _getUserCityWeatherData();
-                },
-                child: new Text('ok'),
-              ),
-            ],
+        _noInternetConnectionPopup();
+      }
+    }
+  }
+
+  void _getForecastData() async {
+    if (_cityName == '') {
+      _cityNotFoundPopUp();
+    } else {
+      if (await kInternetConnectivityChecker() == true) {
+        _pressAttention = !_pressAttention;
+        Weather weather = new Weather();
+        dynamic weatherData =
+            await weather.getCityWeatherForecastData(cityName: _cityName);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ForecastScreen(
+                gradientBackgroundColor: _gradientBackgroundColor,
+                weatherData: weatherData,
+              );
+            },
           ),
         );
+        _pressAttention = !_pressAttention;
+      } else {
+        _noInternetConnectionPopup();
       }
     }
   }
@@ -257,47 +225,50 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
-  void _getForecastData() async {
-    {
-      if (await kInternetConnectivityChecker() == true) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return ForecastScreen(
-                gradientBackgroundColor: _gradientBackgroundColor,
-                cityName: _cityName,
-              );
+  void _cityNotFoundPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error 404'),
+        content: new Text('City Not Found'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _getUserCityWeatherData();
             },
+            child: new Text('OK'),
           ),
-        );
-      } else {
-        showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(' No Internet '),
-            content: new Text(
-                'This app requires Internet connection. Do you want to continue?'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.pop(context),
-                child: new Text('cancel'),
-              ),
-              new FlatButton(
-                onPressed: () async {
-                  if (await kInternetConnectivityChecker() == false) {
-                    OpenSettings.openWIFISetting();
-                  }
-                  Navigator.pop(context);
-                  _getForecastData();
-                },
-                child: new Text('ok'),
-              ),
-            ],
+        ],
+      ),
+    );
+  }
+
+  void _noInternetConnectionPopup() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text(' No Internet '),
+        content: new Text(
+            'This app requires Internet connection. Do you want to continue?'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: new Text('cancel'),
           ),
-        );
-      }
-    }
+          new FlatButton(
+            onPressed: () async {
+              if (await kInternetConnectivityChecker() == false) {
+                OpenSettings.openWIFISetting();
+              }
+              Navigator.pop(context);
+              _getForecastData();
+            },
+            child: new Text('ok'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -444,15 +415,23 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                 ),
                 Container(
+                  width: MediaQuery.of(context).copyWith().size.width / 3,
                   child: RaisedButton(
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(FontAwesome.line_chart),
-                            Text('Forecast'),
-                          ],
+                          children: _pressAttention
+                              ? <Widget>[
+                                  Icon(FontAwesome.line_chart),
+                                  Text('Forecast'),
+                                ]
+                              : <Widget>[
+                                  SpinKitWave(
+                                    color: Colors.white,
+                                    size: 40.0,
+                                  ),
+                                ],
                         ),
                       ),
                       color: kTransparentBackgroundColor,

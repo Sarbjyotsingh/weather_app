@@ -19,6 +19,7 @@ dependencies:
   connectivity: ^0.4.6+2
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

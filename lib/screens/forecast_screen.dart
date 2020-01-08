@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 //Todo: also get city name and check if city name is null and call API also
 class ForecastScreen extends StatefulWidget {
   final List<Color> gradientBackgroundColor;
-  final String cityName;
+  final dynamic weatherData;
   ForecastScreen(
-      {@required this.gradientBackgroundColor, @required this.cityName});
+      {@required this.gradientBackgroundColor, @required this.weatherData});
   @override
   _ForecastScreenState createState() => _ForecastScreenState();
 }

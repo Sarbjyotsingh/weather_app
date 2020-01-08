@@ -12,19 +12,15 @@ class Weather {
     return await networkHelper.getResponseData();
   }
 
-  // Todo: get stream of data by city name only
-
-// For stream of data: dio package (weather forecast)
-//  Future<dynamic> getLocationWeatherForecastData(
-//      {@required double longitude, @required double latitude}) async {
-//    NetworkHelper networkHelper = new NetworkHelper(
-//        url: '${_apiURL}forecast?lat=$latitude&lon=$longitude$_apiKey');
-//    return await networkHelper.getResponseData();
-//  }
-
   Future getCityWeatherCurrentData({@required String cityName}) async {
     NetworkHelper networkHelper =
         new NetworkHelper(url: '${_apiURL}weather?q=$cityName$_apiKey');
+    return await networkHelper.getResponseData();
+  }
+
+  Future getCityWeatherForecastData({@required String cityName}) async {
+    NetworkHelper networkHelper =
+        new NetworkHelper(url: '${_apiURL}forecast?q=$cityName$_apiKey');
     return await networkHelper.getResponseData();
   }
 }
