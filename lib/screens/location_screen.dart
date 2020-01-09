@@ -496,7 +496,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           Expanded(
                             child: DetailCardWidget(
                               cardIconData: WeatherIcons.wi_cloudy,
-                              cardText: 'Cloudiness',
+                              cardText: 'Clouds',
                               cardValue: '$_cloudiness %',
                             ),
                           ),
