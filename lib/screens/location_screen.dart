@@ -12,7 +12,6 @@ import 'package:weather_app/services/location_info.dart';
 import 'package:weather_app/services/weather.dart';
 import 'package:weather_app/utilities/constants.dart';
 import 'package:weather_app/widgets/detail_card_widget.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
 // Todo: refactor all code
 
 class LocationScreen extends StatefulWidget {

@@ -63,21 +63,6 @@ class _CityScreenState extends State<CityScreen> {
             child: SafeArea(
               child: Column(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: FlatButton(
-                      onPressed: () {
-                        if (ModalRoute.of(context).settings.name != null) {
-                          _onWillPop();
-                        } else
-                          Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 33.0,
-                      ),
-                    ),
-                  ),
                   Container(
                     padding: EdgeInsets.all(20.0),
                     child: TextField(
