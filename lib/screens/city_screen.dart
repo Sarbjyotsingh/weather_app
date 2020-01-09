@@ -18,6 +18,7 @@ class CityScreen extends StatefulWidget {
 class _CityScreenState extends State<CityScreen> {
   String cityName;
   bool _pressAttention;
+  var _controller = TextEditingController();
 // only show exit popup when Routing from loading screen and press back button
   Future<bool> _onWillPop() async {
     var route = ModalRoute.of(context).settings.name;
@@ -88,8 +89,8 @@ class _CityScreenState extends State<CityScreen> {
         actions: <Widget>[
           new FlatButton(
             onPressed: () {
+              _controller.clear();
               Navigator.pop(context);
-              //Todo: make take field == null or ''
             },
             child: new Text('OK'),
           ),
@@ -155,6 +156,7 @@ class _CityScreenState extends State<CityScreen> {
                   Container(
                     padding: EdgeInsets.all(20.0),
                     child: TextField(
+                      controller: _controller,
                       decoration: kInputTextDecoration,
                       onChanged: (value) {
                         cityName = value;
