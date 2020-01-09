@@ -92,32 +92,6 @@ class _LocationScreenState extends State<LocationScreen> {
     }
   }
 
-  void _getUserCityWeatherData() async {
-    var typedName = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return CityScreen(
-          gradientBackgroundColor: _gradientBackgroundColor,
-        );
-      }),
-    );
-    if (typedName != null) {
-      //Checking Internet Connection
-      if (await kInternetConnectivityChecker() == true) {
-        //getting weather data on basis of City Name
-        Weather weather = new Weather();
-        dynamic weatherData =
-            await weather.getCityWeatherCurrentData(cityName: typedName);
-        _updateUI(weatherData);
-        if (weatherData == 404) {
-          _cityNotFoundPopUp();
-        }
-      } else {
-        _noInternetConnectionPopup();
-      }
-    }
-  }
-
   void _getForecastData() async {
     if (_cityName == '') {
       _cityNotFoundPopUp();
@@ -234,7 +208,6 @@ class _LocationScreenState extends State<LocationScreen> {
           new FlatButton(
             onPressed: () {
               Navigator.pop(context);
-              _getUserCityWeatherData();
             },
             child: new Text('OK'),
           ),
@@ -261,7 +234,6 @@ class _LocationScreenState extends State<LocationScreen> {
                 OpenSettings.openWIFISetting();
               }
               Navigator.pop(context);
-              _getForecastData();
             },
             child: new Text('ok'),
           ),
@@ -333,7 +305,17 @@ class _LocationScreenState extends State<LocationScreen> {
                                   Icons.search,
                                 ),
                                 iconSize: 33,
-                                onPressed: _getUserCityWeatherData),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return CityScreen(
+                                        gradientBackgroundColor:
+                                            _gradientBackgroundColor,
+                                      );
+                                    }),
+                                  );
+                                }),
                           ),
                         ],
                       ),

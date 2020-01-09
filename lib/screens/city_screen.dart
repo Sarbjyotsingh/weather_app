@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:open_settings/open_settings.dart';
+import 'package:weather_app/services/weather.dart';
 
 import '../utilities/constants.dart';
+import 'location_screen.dart';
 
 class CityScreen extends StatefulWidget {
   final List<Color> gradientBackgroundColor;
@@ -13,6 +17,7 @@ class CityScreen extends StatefulWidget {
 
 class _CityScreenState extends State<CityScreen> {
   String cityName;
+  bool _pressAttention;
 // only show exit popup when Routing from loading screen and press back button
   Future<bool> _onWillPop() async {
     var route = ModalRoute.of(context).settings.name;
@@ -39,6 +44,90 @@ class _CityScreenState extends State<CityScreen> {
       Navigator.of(context).pop(true);
       return false;
     }
+  }
+
+  void _getUserCityWeatherData() async {
+    if (cityName != null) {
+      //Checking Internet Connection
+      if (await kInternetConnectivityChecker() == true) {
+        //getting weather data on basis of City Name
+        setState(() {
+          _pressAttention = !_pressAttention;
+        });
+        Weather weather = new Weather();
+        dynamic weatherData =
+            await weather.getCityWeatherCurrentData(cityName: cityName);
+
+        if (weatherData == 404) {
+          _cityNotFoundPopUp();
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return LocationScreen(
+                weatherData: weatherData,
+              );
+            }),
+          );
+        }
+        setState(() {
+          _pressAttention = !_pressAttention;
+        });
+      } else {
+        _noInternetConnectionPopup();
+      }
+    }
+  }
+
+  void _cityNotFoundPopUp() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error 404'),
+        content: new Text('City Not Found'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+              //Todo: make take field == null or ''
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _noInternetConnectionPopup() {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text(' No Internet '),
+        content: new Text(
+            'This app requires Internet connection. Do you want to continue?'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: new Text('cancel'),
+          ),
+          new FlatButton(
+            onPressed: () async {
+              if (await kInternetConnectivityChecker() == false) {
+                OpenSettings.openWIFISetting();
+              }
+              Navigator.pop(context);
+            },
+            child: new Text('ok'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pressAttention = true;
   }
 
   @override
@@ -71,26 +160,37 @@ class _CityScreenState extends State<CityScreen> {
                         cityName = value;
                       },
                       onSubmitted: (String value) {
-                        Navigator.pop(context, value);
+                        _getUserCityWeatherData();
                       },
                       style: TextStyle(
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  Center(
-                    child: FlatButton(
-                      child: Text(
-                        'Get Weather',
-                      ),
-                      color: kEnabledButtonColor,
-                      onPressed: () {
-                        Navigator.pop(context, cityName);
-                      },
-                      padding: EdgeInsets.symmetric(horizontal: 35),
-                    ),
+                  Container(
+                    width: MediaQuery.of(context).copyWith().size.width / 2,
+                    child: RaisedButton(
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: _pressAttention
+                                ? <Widget>[
+                                    Text('Get Weather'),
+                                  ]
+                                : <Widget>[
+                                    SpinKitWave(
+                                      color: Colors.white,
+                                      size: 20.0,
+                                    ),
+                                  ],
+                          ),
+                        ),
+                        color: kEnabledButtonColor,
+                        onPressed: () {
+                          _getUserCityWeatherData();
+                        }),
                   ),
-                  Container(),
                 ],
               ),
             ),
