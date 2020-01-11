@@ -4,7 +4,7 @@ class FormattedDateTime {
   DateTime dateTime;
   FormattedDateTime({this.dateTime});
 
-  String getFormattedDateTime() {
+  String getDeviceLocationFormattedDateTime() {
     return DateFormat('EEE, h:mm a').format(dateTime);
   }
 }

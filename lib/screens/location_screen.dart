@@ -69,8 +69,8 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void _getCurrentDateTimeString() {
-    String timeString =
-        FormattedDateTime(dateTime: DateTime.now()).getFormattedDateTime();
+    String timeString = FormattedDateTime(dateTime: DateTime.now())
+        .getDeviceLocationFormattedDateTime();
     setState(() {
       _currentDateTime = timeString;
     });
@@ -264,6 +264,7 @@ class _LocationScreenState extends State<LocationScreen> {
         colors: _gradientBackgroundColor,
       ),
     );
+    _updateUI(widget.weatherData);
   }
 
   @override
