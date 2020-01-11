@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:weather_app/services/weather.dart';
@@ -34,7 +33,8 @@ class _CityScreenState extends State<CityScreen> {
                   child: new Text('No'),
                 ),
                 new FlatButton(
-                  onPressed: () => exit(0),
+                  onPressed: () => SystemChannels.platform
+                      .invokeMethod('SystemNavigator.pop'),
                   child: new Text('Yes'),
                 ),
               ],

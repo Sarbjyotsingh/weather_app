@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_settings/open_settings.dart';
@@ -57,7 +58,8 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: new Text('No'),
               ),
               new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
+                onPressed: () =>
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
                 child: new Text('Yes'),
               ),
             ],
