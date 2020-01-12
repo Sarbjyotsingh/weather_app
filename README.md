@@ -9,7 +9,49 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
 <!-- ## Download The Andriod Apk From [Here]()(Wil be Available Soon) -->
  
 ##  Screenshots
- 
+<!--  <p align="center">-->
+<!-- <img src="https://github.com/jhomlala/feather/blob/master/media/video.gif" width="250px">-->
+<!-- </p>-->
+
+<table>
+  <tr>
+    <td>
+  <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/SplashScreen.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot1.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot2.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot3.jpg">
+    </td>
+     <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot4.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot5.jpg">
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot6.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot7.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot8.jpg">
+    </td>
+    <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot9.jpg">
+    </td>
+     <td>
+       <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/CitySearchScreen.jpg">
+    </td>
+  </tr>
+</table>
  
 ## Features 
 :heavy_check_mark: Beautiful UI  <br>
