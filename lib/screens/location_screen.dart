@@ -345,7 +345,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           ),
                           Text(
                             _weatherStatus,
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 28),
                           ),
                         ],
                       ),
