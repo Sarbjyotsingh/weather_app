@@ -15,7 +15,6 @@ class Weather {
   Future getCityWeatherCurrentData({@required String cityName}) async {
     NetworkHelper networkHelper =
         new NetworkHelper(url: '${_apiURL}weather?q=$cityName$_apiKey');
-    print(await networkHelper.getResponseData());
     return await networkHelper.getResponseData();
   }
 

@@ -361,7 +361,6 @@ class _LocationScreenState extends State<LocationScreen> {
                             WeatherIcons.wi_degrees,
                             size: 70,
                           ),
-                          //Todo: refactor 2 button
                           Expanded(
                             child: Center(
                               child: Column(
