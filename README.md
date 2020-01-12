@@ -27,20 +27,24 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
     <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot3.jpg">
     </td>
-     <td>
+     
+  </tr>
+  <tr>
+    <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot4.jpg">
     </td>
     <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot5.jpg">
     </td>
-  </tr>
-  <tr>
     <td>
   <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot6.jpg">
     </td>
     <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot7.jpg">
     </td>
+ 
+  </tr>
+   <tr>
     <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/Screenshot8.jpg">
     </td>
@@ -50,7 +54,9 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
      <td>
        <img width="250px" src="https://github.com/Sarbjyotsingh/weather_app/blob/master/media/CitySearchScreen.jpg">
     </td>
+ 
   </tr>
+ 
 </table>
  
 ## Features 
