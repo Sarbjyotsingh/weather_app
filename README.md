@@ -72,7 +72,7 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
  
 ## Credits
 
-* [Anna Grenn](https://dribbble.com/AnnaGrenn)
-* [Sky-inspired Weather App Concept](https://uxplanet.org/sky-inspired-weather-app-concept-4f1775ce4571)
-* [Open Weather Map API](https://openweathermap.org/)
-* [Weather Icon Pack](https://erikflowers.github.io/weather-icons/)
+* Design: [Anna Grenn](https://dribbble.com/AnnaGrenn)
+* Concept: [Sky-inspired Weather App Concept](https://uxplanet.org/sky-inspired-weather-app-concept-4f1775ce4571)
+* API: [Open Weather Map API](https://openweathermap.org/)
+* Icons: [Weather Icon Pack](https://erikflowers.github.io/weather-icons/)
