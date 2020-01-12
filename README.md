@@ -6,4 +6,10 @@
 
 Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dribbble.com/AnnaGrenn). Through Weather App, we are able to find out the live and forecast weather data in the current location of the device as well as the weather for any city you can think of! Entirely written in Dart and Flutter. Application is ready for Android and iOS.
 
+<!-- ## Download The Andriod Apk From [Here]()(Wil be Available Soon) -->
  
+## Acknowledgments
+
+* [Anna Grenn](https://dribbble.com/AnnaGrenn)
+* [Sky-inspired Weather App Concept](https://uxplanet.org/sky-inspired-weather-app-concept-4f1775ce4571)
+* [Weather Icon Pack](https://erikflowers.github.io/weather-icons/)
