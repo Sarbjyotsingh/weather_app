@@ -69,6 +69,13 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
 :heavy_check_mark: Automatically picks user location (also error handling when location can't be selected!)  <br> 
 :heavy_check_mark: Error handling: when the internet is not accessible, no location permission from user, G.P.S. not available <br> 
 
+
+## To do
+* Code refactor   
+* Documentation
+* Forecast Screen UI
+* Show City Time Not Device Time
+
  
 ## Credits
 
