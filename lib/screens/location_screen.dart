@@ -132,10 +132,10 @@ class _LocationScreenState extends State<LocationScreen> {
         _temperature = weatherData['main']['temp'].toDouble();
         _temperatureFeelLike = weatherData['main']['feels_like'].toDouble();
         _wind = weatherData['wind']['speed'].toDouble();
-        _humidity = weatherData['main']['humidity'].toInt();
-        _pressure = weatherData['main']['pressure'].toInt();
-        _visibility = weatherData['visibility'].toInt();
-        _cloudiness = weatherData['clouds']['all'].toInt();
+        _humidity = weatherData['main']['humidity'];
+        _pressure = weatherData['main']['pressure'];
+        _visibility = weatherData['visibility'];
+        _cloudiness = weatherData['clouds']['all'];
         _celsiusButtonStatus = true;
         _celsiusButtonColor = kEnabledButtonColor;
         _celsiusButtonElevation = kEnabledButtonElevation;
