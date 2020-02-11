@@ -60,7 +60,6 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
 </table>
  
 ## Features 
-:heavy_check_mark: Beautiful UI  <br>
 :heavy_check_mark: Weather data in the current location of the device<br>
 :heavy_check_mark: Weather data in any city<br>
 :heavy_check_mark: Weather Data: current temperature, feel like temperature, humidity, pressure, wind, visibility, cloudiness  <br>
