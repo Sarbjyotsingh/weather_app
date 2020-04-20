@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
         textTheme: TextTheme(
-          body1: TextStyle(fontFamily: 'Montserrat'),
+          bodyText1: TextStyle(fontFamily: 'Montserrat'),
         ),
       ),
       routes: {
