@@ -73,7 +73,6 @@ Weather app is inspired by the beautiful designs made by [Anna Grenn](https://dr
 * Code refactor   
 * Documentation
 * Forecast Screen UI
-* Show City Time Not Device Time
 
  
 ## Credits
